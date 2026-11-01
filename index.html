@@ -1,413 +1,337 @@
+
 <!DOCTYPE html>
-
-<html lang=“en”>
-
+<html lang="en">
 <head>
-
-<meta charset=“UTF-8”>
-
-<meta name=“viewport” content=“width=device-width, initial-scale=1.0”>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Little Letter For You ♡</title>
 
 <style>
-
-  * {
-
-    box-sizing: border-box;
-
-  }
-
-  body {
-
-    margin: 0;
-
-    min-height: 100vh;
-
-    font-family: “Trebuchet MS”, sans-serif;
-
-    color: #744657;
-
-    background: linear-gradient(135deg, #ffe4ee, #fff3f7, #fce0f0);
-
-    overflow-x: hidden;
-
-  }
-
-  .hearts {
-
-    position: fixed;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    overflow: hidden;
-
-    z-index: 0;
-
-  }
-
-  .heart {
-
-    position: absolute;
-
-    bottom: -50px;
-
-    color: #f28eaf;
-
-    opacity: 0.65;
-
-    animation: floatUp linear forwards;
-
-  }
-
-  @keyframes floatUp {
-
-    from {
-
-      transform: translateY(0) rotate(0deg);
-
-      opacity: 0;
-
-    }
-
-    15% { opacity: 0.7; }
-
-    to {
-
-      transform: translateY(-115vh) rotate(35deg);
-
-      opacity: 0;
-
-    }
-
-  }
-
-  main {
-
-    position: relative;
-
-    z-index: 1;
-
-    width: min(92%, 520px);
-
-    margin: 0 auto;
-
-    padding: 45px 0;
-
-    text-align: center;
-
-  }
-
-  .card {
-
-    padding: 30px 23px;
-
-    background: rgba(255,255,255,0.82);
-
-    border: 1px solid #fff;
-
-    border-radius: 28px;
-
-    box-shadow: 0 12px 40px #c77d9825;
-
-    animation: appear 0.8s ease;
-
-  }
-
-  @keyframes appear {
-
-    from { opacity: 0; transform: translateY(15px); }
-
-    to { opacity: 1; transform: translateY(0); }
-
-  }
-
-  .tiny {
-
-    color: #bc7992;
-
-    letter-spacing: 2px;
-
-    font-size: 12px;
-
-    text-transform: uppercase;
-
-  }
-
-  h1 {
-
-    font-size: clamp(28px, 7vw, 42px);
-
-    line-height: 1.2;
-
-    margin: 15px 0;
-
-  }
-
-  h2 {
-
-    font-size: 25px;
-
-  }
-
-  p {
-
-    line-height: 1.85;
-
-    font-size: 15px;
-
-  }
-
-  .envelope {
-
-    font-size: 95px;
-
-    margin: 15px 0;
-
-    cursor: pointer;
-
-    animation: wiggle 2s infinite ease-in-out;
-
-  }
-
-  @keyframes wiggle {
-
-    0%, 100% { transform: rotate(-4deg) translateY(0); }
-
-    50% { transform: rotate(4deg) translateY(-8px); }
-
-  }
-
-  button {
-
-    font: inherit;
-
-    font-weight: bold;
-
-    border: none;
-
-    border-radius: 30px;
-
-    padding: 14px 22px;
-
-    margin: 7px 4px;
-
-    cursor: pointer;
-
-    transition: transform 0.2s, box-shadow 0.2s;
-
-  }
-
-  button:hover {
-
-    transform: translateY(-2px);
-
-    box-shadow: 0 5px 15px #d889a544;
-
-  }
-
-  .primary {
-
-    background: #e889aa;
-
-    color: white;
-
-  }
-
-  .secondary {
-
-    background: #fff0f5;
-
-    color: #a55375;
-
-    border: 1px solid #f3cada;
-
-  }
-
-  .hidden {
-
-    display: none !important;
-
-  }
-
-  .letter {
-
-    text-align: left;
-
-    background: #fffafd;
-
-    border: 1px dashed #e8a7c0;
-
-    border-radius: 18px;
-
-    padding: 20px;
-
-    margin: 20px 0;
-
-  }
-
-  .signature {
-
-    text-align: right;
-
-    font-style: italic;
-
-    color: #c26d91;
-
-  }
-
-  .big-heart {
-
-    font-size: 55px;
-
-    animation: heartbeat 1.2s infinite;
-
-  }
-
-  @keyframes heartbeat {
-
-    0%, 100% { transform: scale(1); }
-
-    15% { transform: scale(1.15); }
-
-    30% { transform: scale(1); }
-
-  }
-
-  #reply {
-
-    margin-top: 18px;
-
-    padding: 15px;
-
-    background: #fff0f5;
-
-    border-radius: 15px;
-
-    line-height: 1.7;
-
-  }
-
-  footer {
-
-    margin-top: 25px;
-
-    color: #ad7b8f;
-
-    font-size: 12px;
-
-  }
-
-  @media (max-width: 400px) {
-
-    .card { padding: 25px 17px; }
-
-    .letter { padding: 16px; }
-
-  }
-
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color: #874b65;
+  background: linear-gradient(135deg, #ffe2ec, #fff5f8, #fbd9e9);
+  overflow-x: hidden;
+}
+
+.hearts {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  bottom: -40px;
+  animation: floatUp 7s linear forwards;
+  opacity: 0.7;
+}
+
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.7; }
+  100% { transform: translateY(-110vh) rotate(35deg); opacity: 0; }
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  width: min(92%, 520px);
+  margin: auto;
+  padding: 35px 0;
+}
+
+.page {
+  display: none;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid white;
+  border-radius: 28px;
+  padding: 30px 22px;
+  box-shadow: 0 12px 35px #bd719022;
+  animation: fadeIn 0.6s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.small {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #bd7994;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(28px, 7vw, 40px);
+  line-height: 1.25;
+  margin: 16px 0;
+}
+
+p {
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.envelope {
+  font-size: 90px;
+  margin: 20px 0;
+  animation: wiggle 2s infinite ease-in-out;
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-5deg) translateY(0); }
+  50% { transform: rotate(5deg) translateY(-8px); }
+}
+
+button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: bold;
+  border: 0;
+  border-radius: 30px;
+  padding: 14px 20px;
+  margin: 7px 3px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.primary {
+  background: #e88bad;
+  color: white;
+}
+
+.secondary {
+  background: #fff0f5;
+  color: #9c5774;
+  border: 1px solid #f0c7d8;
+}
+
+.letter {
+  text-align: left;
+  background: #fffafd;
+  border: 1px dashed #e5a6bf;
+  border-radius: 18px;
+  padding: 18px;
+  margin: 20px 0;
+}
+
+.signature {
+  text-align: right;
+  font-style: italic;
+  color: #bc6c8f;
+}
+
+.big-heart {
+  font-size: 55px;
+  animation: beat 1.2s infinite;
+}
+
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(1); }
+}
+
+#reply {
+  margin-top: 18px;
+  padding: 15px;
+  border-radius: 15px;
+  background: #fff0f5;
+  line-height: 1.8;
+}
+
+footer {
+  text-align: center;
+  color: #ad7890;
+  font-size: 12px;
+  margin-top: 20px;
+}
 </style>
-
 </head>
 
 <body>
-
-<div class=“hearts” id=“hearts”></div>
+<div class="hearts" id="hearts"></div>
 
 <main>
 
-  <!— PAGE 1: OPENING —>
+  <!-- PAGE 1: OPENING -->
+  <section class="page active" id="opening">
+    <div class="small">A tiny website, made for you ♡</div>
+    <div class="envelope">💌</div>
 
-  <section class=“card” id=“opening”>
-
-    <div class=“tiny”>A tiny website, made for you ♡</div>
-
-    <div class=“envelope” onclick=“openLetter()”>💌</div>
-
-   
+    <h1>Halooo, babyyy ♡</h1>
 
     <p>
-
-      I have a little something to tell you.<br>
-
-      Take a little moment and open this letter?
-
+      I made a little something just for you. 🧸<br>
+      Will you open it for me? 💗
     </p>
 
-    <button class=“primary” onclick=“openLetter()”>
-
+    <button class="primary" onclick="openLetter()">
       Open my letter ♡
-
     </button>
-
-    
-
   </section>
 
-  <!— PAGE 2: LOVE LETTER —>
-
-  <section class=“card hidden” id=“letterPage”>
-
-    <div class=“tiny”>Just between you and me</div>
-
+  <!-- PAGE 2: LOVE LETTER -->
+  <section class="page" id="letterPage">
+    <div class="small">Just between you and me ♡</div>
     <h1>A Letter For You 💗</h1>
 
-<div class="letter">
-  <p>HALOOOO ♡</p>
+    <div class="letter">
+      <p>Halooo, babyyy ♡</p>
 
-  <p>
-    I don't really know how to put everything into words,
-    but I wanted to make something special just for you.
-  </p>
+      <p>
+        I don't really know how to put everything into words,
+        but I wanted to make something special just for you.
+      </p>
 
-  <p>
-    I'm sorry for the things that happened between us.
-    I know that words alone can't fix everything, and I
-    understand that trust takes time to rebuild.
-  </p>
+      <p>
+        I'm sorry for the things that happened between us.
+        I know that words alone can't fix everything, and I
+        understand that trust takes time to rebuild.
+      </p>
 
-  <p>
-    I've been thinking about us and the things I could have
-    done better. I'm trying to become a better person, not
-    just by saying it, but by showing it through my actions.
-  </p>
+      <p>
+        I've been thinking about us and the things I could have
+        done better. I'm trying to become a better person, not
+        just by saying it, but by showing it through my actions.
+      </p>
 
-  <p>
-    I still care about you, and I miss the little moments
-    we shared. I'm not asking you to forget the past or
-    make any decisions right now. I just wanted you to
-    know how I feel, honestly.
-  </p>
+      <p>
+        I still care about you, and I miss the little moments
+        we shared. I'm not asking you to forget the past or
+        make any decisions right now. I just wanted you to
+        know how I feel, honestly.
+      </p>
 
-  <p>
-    Whatever your answer may be, thank you for taking the
-    time to read this little letter. You still mean a lot
-    to me. ♡
-  </p>
+      <p>
+        Whatever your answer may be, thank you for taking the
+        time to read this little letter. You still mean a lot
+        to me. ♡
+      </p>
 
-  <p class="signature">
-    With love,<br>
-    [Muhammad] 🧸
-  </p>
-</div>
+      <p class="signature">
+        With love,<br>
+        [Your name] 🧸
+      </p>
+    </div>
 
-<button class="primary" onclick="showQuestion()">
-  One more thing... 💌
-</button>
-<p>
-  Would you be comfortable going out with me next week?
-  Maybe we could get your favourite food, have a little
-  chat, and spend some time together. No pressure at all. ♡
-</p>
+    <button class="primary" onclick="showQuestion()">
+      One more thing... 💗
+    </button>
+  </section>
 
-<button class="primary" onclick="answerYes()">
-  I'd love to
-</button>
+  <!-- PAGE 3: DATE INVITATION -->
+  <section class="page" id="questionPage">
+    <div class="big-heart">💗</div>
+    <div class="small">My little question</div>
 
-<button class="secondary" onclick="answerTime()">
-  I need some time 
-</button>
+    <h1>Can I take you out? 🌷</h1>
 
-<div id="reply" class="hidden" aria-live="polite"></div>
+    <p>
+      Would you be comfortable going out with me sometime?
+      Maybe we could get your favourite food, have a little
+      chat, and spend some time together.
+      No pressure at all. ♡
+    </p>
+
+    <button class="primary" onclick="answerYes()">
+      I'd love to! 🥹
+    </button>
+
+    <button class="secondary" onclick="answerTime()">
+      I need some time 🤍
+    </button>
+
+    <div id="reply" hidden aria-live="polite"></div>
+  </section>
+
+  <footer>made with ♡, just for you</footer>
+</main>
+
+<script>
+// Show only the requested page
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(function(page) {
+    page.classList.remove("active");
+  });
+
+  document.getElementById(pageId).classList.add("active");
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function openLetter() {
+  showPage("letterPage");
+}
+
+function showQuestion() {
+  showPage("questionPage");
+}
+
+function answerYes() {
+  const reply = document.getElementById("reply");
+  reply.hidden = false;
+  reply.innerHTML =
+    "You just made me smile! 🥹💗<br>" +
+    "Thank you for being open to it. " +
+    "Let's plan a day that feels comfortable for both of us. 🌷";
+  burstHearts();
+}
+
+function answerTime() {
+  const reply = document.getElementById("reply");
+  reply.hidden = false;
+  reply.innerHTML =
+    "That's okay, take all the time you need. 🤍<br>" +
+    "I respect your feelings. There's no pressure to answer now.";
+}
+
+// Floating hearts animation
+const heartContainer = document.getElementById("hearts");
+const symbols = ["♡", "♥", "💕", "💗"];
+
+function createHeart() {
+  const heart = document.createElement("span");
+  heart.className = "heart";
+  heart.textContent = symbols[
+    Math.floor(Math.random() * symbols.length)
+  ];
+
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.fontSize = (15 + Math.random() * 22) + "px";
+  heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+
+  heartContainer.appendChild(heart);
+  setTimeout(function() {
+    heart.remove();
+  }, 11000);
+}
+
+setInterval(createHeart, 450);
+
+function burstHearts() {
+  for (let i = 0; i < 18; i++) {
+    setTimeout(createHeart, i * 100);
+  }
+}
+</script>
+</body>
+</html>
