@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +6,9 @@
 <title>A Little Letter For You ♡</title>
 
 <style>
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
 
 body {
   margin: 0;
@@ -17,9 +16,11 @@ body {
   font-family: "Trebuchet MS", Arial, sans-serif;
   color: #874b65;
   background: linear-gradient(135deg, #ffe2ec, #fff5f8, #fbd9e9);
+  background-attachment: fixed;
   overflow-x: hidden;
 }
 
+/* ---------- floating hearts ---------- */
 .hearts {
   position: fixed;
   inset: 0;
@@ -27,28 +28,32 @@ body {
   pointer-events: none;
   z-index: 0;
 }
-
 .heart {
   position: absolute;
   bottom: -40px;
+  opacity: 0;
   animation: floatUp 7s linear forwards;
-  opacity: 0.7;
 }
-
 @keyframes floatUp {
-  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-  15% { opacity: 0.7; }
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  15%  { opacity: 0.7; }
   100% { transform: translateY(-110vh) rotate(35deg); opacity: 0; }
 }
 
+/* ---------- layout ---------- */
 main {
   position: relative;
   z-index: 1;
   width: min(92%, 520px);
-  margin: auto;
+  min-height: 100vh;
+  margin: 0 auto;
   padding: 35px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
+/* Only ONE page is visible at a time */
 .page {
   display: none;
   text-align: center;
@@ -56,17 +61,15 @@ main {
   border: 2px solid white;
   border-radius: 28px;
   padding: 30px 22px;
-  box-shadow: 0 12px 35px #bd719022;
-  animation: fadeIn 0.6s ease;
+  box-shadow: 0 12px 35px rgba(189, 113, 144, 0.2);
 }
-
 .page.active {
   display: block;
+  animation: fadeIn 0.6s ease both;
 }
-
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .small {
@@ -85,46 +88,53 @@ h1 {
 p {
   font-size: 15px;
   line-height: 1.85;
+  margin: 0 0 14px;
 }
 
+/* ---------- envelope ---------- */
 .envelope {
   font-size: 90px;
   margin: 20px 0;
+  display: inline-block;
   animation: wiggle 2s infinite ease-in-out;
 }
-
+.envelope.opening {
+  animation: openPop 0.7s ease forwards;
+}
 @keyframes wiggle {
   0%, 100% { transform: rotate(-5deg) translateY(0); }
-  50% { transform: rotate(5deg) translateY(-8px); }
+  50%      { transform: rotate(5deg) translateY(-8px); }
+}
+@keyframes openPop {
+  0%   { transform: scale(1) rotate(0deg); opacity: 1; }
+  40%  { transform: scale(1.35) rotate(-8deg); opacity: 1; }
+  100% { transform: scale(0.2) translateY(-60px); opacity: 0; }
 }
 
+/* ---------- buttons ---------- */
 button {
   font-family: inherit;
   font-size: 14px;
   font-weight: bold;
   border: 0;
   border-radius: 30px;
-  padding: 14px 20px;
+  padding: 14px 22px;
   margin: 7px 3px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-
 button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(232, 139, 173, 0.4);
 }
-
-.primary {
-  background: #e88bad;
-  color: white;
+button:focus-visible {
+  outline: 3px solid #bd7994;
+  outline-offset: 3px;
 }
+.primary   { background: #e88bad; color: #fff; }
+.secondary { background: #fff0f5; color: #9c5774; border: 1px solid #f0c7d8; }
 
-.secondary {
-  background: #fff0f5;
-  color: #9c5774;
-  border: 1px solid #f0c7d8;
-}
-
+/* ---------- letter ---------- */
 .letter {
   text-align: left;
   background: #fffafd;
@@ -133,6 +143,17 @@ button:hover {
   padding: 18px;
   margin: 20px 0;
 }
+/* each paragraph fades in one after another */
+.page.active .letter p {
+  opacity: 0;
+  animation: fadeIn 0.7s ease forwards;
+}
+.page.active .letter p:nth-child(1) { animation-delay: 0.3s; }
+.page.active .letter p:nth-child(2) { animation-delay: 0.9s; }
+.page.active .letter p:nth-child(3) { animation-delay: 1.5s; }
+.page.active .letter p:nth-child(4) { animation-delay: 2.1s; }
+.page.active .letter p:nth-child(5) { animation-delay: 2.7s; }
+.page.active .letter p:nth-child(6) { animation-delay: 3.3s; }
 
 .signature {
   text-align: right;
@@ -140,15 +161,16 @@ button:hover {
   color: #bc6c8f;
 }
 
+/* ---------- question page ---------- */
 .big-heart {
   font-size: 55px;
+  display: inline-block;
   animation: beat 1.2s infinite;
 }
-
 @keyframes beat {
   0%, 100% { transform: scale(1); }
-  15% { transform: scale(1.15); }
-  30% { transform: scale(1); }
+  15%      { transform: scale(1.15); }
+  30%      { transform: scale(1); }
 }
 
 #reply {
@@ -157,13 +179,23 @@ button:hover {
   border-radius: 15px;
   background: #fff0f5;
   line-height: 1.8;
+  animation: fadeIn 0.5s ease both;
 }
+#reply[hidden] { display: none; }
 
 footer {
   text-align: center;
   color: #ad7890;
   font-size: 12px;
   margin-top: 20px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+  }
 }
 </style>
 </head>
@@ -176,7 +208,7 @@ footer {
   <!-- PAGE 1: OPENING -->
   <section class="page active" id="opening">
     <div class="small">A tiny website, made for you ♡</div>
-    <div class="envelope">💌</div>
+    <div class="envelope" id="envelope">💌</div>
 
     <h1>Halooo, babyyy ♡</h1>
 
@@ -185,7 +217,7 @@ footer {
       Will you open it for me? 💗
     </p>
 
-    <button class="primary" onclick="openLetter()">
+    <button type="button" class="primary" onclick="openLetter()">
       Open my letter ♡
     </button>
   </section>
@@ -222,19 +254,13 @@ footer {
         know how I feel, honestly.
       </p>
 
-      <p>
-        Whatever your answer may be, thank you for taking the
-        time to read this little letter. You still mean a lot
-        to me. ♡
-      </p>
-
       <p class="signature">
         With love,<br>
         [Your name] 🧸
       </p>
     </div>
 
-    <button class="primary" onclick="showQuestion()">
+    <button type="button" class="primary" onclick="showQuestion()">
       One more thing... 💗
     </button>
   </section>
@@ -253,11 +279,11 @@ footer {
       No pressure at all. ♡
     </p>
 
-    <button class="primary" onclick="answerYes()">
+    <button type="button" class="primary" onclick="answerYes()">
       I'd love to! 🥹
     </button>
 
-    <button class="secondary" onclick="answerTime()">
+    <button type="button" class="secondary" onclick="answerTime()">
       I need some time 🤍
     </button>
 
@@ -270,16 +296,21 @@ footer {
 <script>
 // Show only the requested page
 function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(function(page) {
+  document.querySelectorAll(".page").forEach(function (page) {
     page.classList.remove("active");
   });
-
   document.getElementById(pageId).classList.add("active");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+// Envelope "opens" first, then the letter appears
 function openLetter() {
-  showPage("letterPage");
+  var envelope = document.getElementById("envelope");
+  envelope.classList.add("opening");
+  burstHearts();
+  setTimeout(function () {
+    showPage("letterPage");
+  }, 700);
 }
 
 function showQuestion() {
@@ -287,7 +318,7 @@ function showQuestion() {
 }
 
 function answerYes() {
-  const reply = document.getElementById("reply");
+  var reply = document.getElementById("reply");
   reply.hidden = false;
   reply.innerHTML =
     "You just made me smile! 🥹💗<br>" +
@@ -297,38 +328,32 @@ function answerYes() {
 }
 
 function answerTime() {
-  const reply = document.getElementById("reply");
+  var reply = document.getElementById("reply");
   reply.hidden = false;
   reply.innerHTML =
     "That's okay, take all the time you need. 🤍<br>" +
     "I respect your feelings. There's no pressure to answer now.";
 }
 
-// Floating hearts animation
-const heartContainer = document.getElementById("hearts");
-const symbols = ["♡", "♥", "💕", "💗"];
+// Floating hearts
+var heartContainer = document.getElementById("hearts");
+var symbols = ["♡", "♥", "💕", "💗"];
 
 function createHeart() {
-  const heart = document.createElement("span");
+  var heart = document.createElement("span");
   heart.className = "heart";
-  heart.textContent = symbols[
-    Math.floor(Math.random() * symbols.length)
-  ];
-
+  heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
   heart.style.left = Math.random() * 100 + "vw";
   heart.style.fontSize = (15 + Math.random() * 22) + "px";
   heart.style.animationDuration = (5 + Math.random() * 5) + "s";
-
   heartContainer.appendChild(heart);
-  setTimeout(function() {
-    heart.remove();
-  }, 11000);
+  setTimeout(function () { heart.remove(); }, 11000);
 }
 
 setInterval(createHeart, 450);
 
 function burstHearts() {
-  for (let i = 0; i < 18; i++) {
+  for (var i = 0; i < 18; i++) {
     setTimeout(createHeart, i * 100);
   }
 }
