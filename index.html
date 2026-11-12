@@ -1,602 +1,211 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Little Note ♡</title>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A letter for you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Homemade+Apple&display=swap" rel="stylesheet">
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
+  :root {
+    --sage-1: #b9c9aa;
+    --sage-2: #8da47d;
+    --env: #e6ecdc;
+    --env-front: #d6e0c9;
+    --env-flap: #c3d1b3;
+    --paper: #f6f8f1;
+    --rule: #dde6d3;
+    --margin: #b9c9aa;
+    --ink: #26352b;
+    --soft: #5c6e57;
+    --gold: #c9a95b;
+    --line: 2rem;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
     min-height: 100vh;
-    background: #e8efe5;
-    color: #344638;
-    font-family: 'DM Sans', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
+    background: linear-gradient(160deg, var(--sage-1), var(--sage-2));
+    font-family: "Lora", Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    overflow-x: hidden;
+  }
 
-.container {
-    width: 100%;
-    max-width: 680px;
-    text-align: center;
-}
+  /* drifting leaves */
+  .leaves { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+  .leaf {
+    position: absolute; top: -3rem; width: 1.6rem; height: 1.6rem;
+    fill: #f6f8f1; opacity: 0.35;
+    animation: drift linear infinite;
+  }
+  .leaf:nth-child(1) { left: 8%;  animation-duration: 19s; animation-delay: -3s; }
+  .leaf:nth-child(2) { left: 24%; animation-duration: 26s; animation-delay: -12s; width: 1.1rem; height: 1.1rem; }
+  .leaf:nth-child(3) { left: 46%; animation-duration: 22s; animation-delay: -7s; }
+  .leaf:nth-child(4) { left: 63%; animation-duration: 30s; animation-delay: -18s; width: 1.2rem; height: 1.2rem; }
+  .leaf:nth-child(5) { left: 80%; animation-duration: 21s; animation-delay: -1s; }
+  .leaf:nth-child(6) { left: 92%; animation-duration: 27s; animation-delay: -14s; width: 1rem; height: 1rem; }
+  @keyframes drift {
+    0%   { transform: translate(0, -3rem) rotate(0deg); }
+    50%  { transform: translate(2.5rem, 55vh) rotate(180deg); }
+    100% { transform: translate(-1.5rem, 110vh) rotate(360deg); }
+  }
 
-.small-title {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #819482;
-}
-
-h1 {
-    font-family: 'Fraunces', serif;
-    font-size: 43px;
-    margin: 10px 0;
-}
-
-.subtitle {
-    color: #7c8b7d;
-    font-size: 13px;
-}
-
-/* ENVELOPE */
-
-.envelope-area {
-    margin-top: 80px;
-    display: flex;
-    justify-content: center;
-}
-
-.envelope {
+  .stage {
     position: relative;
-    width: 350px;
-    height: 230px;
-    background: #cbd9c8;
-    cursor: pointer;
-    border-radius: 8px;
-    box-shadow: 0 20px 40px #526c5730;
-    transition: 0.3s;
-}
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+  }
 
-.envelope:hover {
-    transform: translateY(-5px);
-}
-
-.envelope-back {
-    position: absolute;
-    inset: 0;
-    background: #d8e4d4;
-}
-
-.envelope-flap {
-    position: absolute;
-    width: 100%;
-    height: 60%;
-    top: 0;
-    background: #c0d2bd;
+  /* envelope */
+  .envelope {
+    position: relative; display: block;
+    width: min(88vw, 23rem); aspect-ratio: 3 / 2;
+    border: 0; padding: 0; background: none; cursor: pointer;
+    perspective: 1200px;
+    filter: drop-shadow(0 16px 24px rgba(30, 45, 28, 0.3));
+    transition: transform 0.4s ease, opacity 0.5s ease;
+  }
+  .envelope:hover { transform: translateY(-4px) rotate(-1deg); }
+  .envelope:focus-visible { outline: 3px solid #fff; outline-offset: 6px; }
+  .envelope > * { position: absolute; }
+  .env-back  { inset: 0; background: var(--env); border-radius: 4px; }
+  .env-front {
+    inset: 0; background: var(--env-front); border-radius: 4px;
+    clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+  }
+  .env-flap {
+    top: 0; left: 0; width: 100%; height: 58%;
+    background: var(--env-flap);
     clip-path: polygon(0 0, 100% 0, 50% 100%);
-    transform-origin: top;
-    transition: 0.7s;
-    z-index: 4;
-}
+    transform-origin: top center;
+    z-index: 3;
+    transition: transform 0.8s cubic-bezier(.5, 0, .2, 1), z-index 0s 0.4s;
+  }
+  .seal {
+    left: 50%; top: 46%; z-index: 4;
+    width: 3rem; height: 3rem; margin: -1.5rem 0 0 -1.5rem;
+    border-radius: 50%; background: var(--gold);
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.2);
+    display: grid; place-items: center;
+    animation: pulse 2.6s ease-in-out infinite;
+    transition: opacity 0.3s ease;
+  }
+  .seal svg { width: 1.4rem; height: 1.4rem; fill: #7b6226; }
+  @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
 
-.envelope-front {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        145deg,
-        transparent 49.5%,
-        #b9cdb9 50%
-    ) left bottom / 50% 100% no-repeat,
-    linear-gradient(
-        215deg,
-        transparent 49.5%,
-        #c3d5c1 50%
-    ) right bottom / 50% 100% no-repeat;
-}
+  .hint { margin: 1.75rem 0 0; font-style: italic; color: #1f2c1c; transition: opacity 0.4s ease; }
 
-.seal {
-    position: absolute;
-    top: 48%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #f6f3e9;
-    display: grid;
-    place-items: center;
-    font-size: 23px;
-    z-index: 5;
-    transition: 0.3s;
-}
+  .opening .env-flap { transform: rotateX(180deg); z-index: 1; }
+  .opening .seal { opacity: 0; animation: none; }
+  .opening .hint { opacity: 0; }
+  .opening .envelope { transform: translateY(2rem); opacity: 0; transition-delay: 0s, 0.9s; pointer-events: none; }
 
-.envelope.open .envelope-flap {
-    transform: rotateX(180deg);
-}
+  .reading .envelope, .reading .hint { display: none; }
 
-.envelope.open .seal {
-    opacity: 0;
-}
+  /* letter */
+  .letter {
+    width: 100%; max-width: 38rem;
+    background:
+      linear-gradient(90deg, transparent 3.4rem, var(--margin) 3.4rem, var(--margin) calc(3.4rem + 1px), transparent calc(3.4rem + 1px)),
+      repeating-linear-gradient(var(--paper), var(--paper) calc(var(--line) - 1px), var(--rule) calc(var(--line) - 1px), var(--rule) var(--line));
+    padding: calc(var(--line) * 1.5) 2rem calc(var(--line) * 1.5) 5rem;
+    border-radius: 2px;
+    box-shadow: 0 20px 44px rgba(30, 45, 28, 0.35);
+    line-height: var(--line); font-size: 1.05rem;
+    animation: rise 0.9s cubic-bezier(.2, .7, .2, 1) both;
+  }
+  .letter[hidden] { display: none; }
+  @keyframes rise { from { opacity: 0; transform: translateY(3rem) scale(0.94); } to { opacity: 1; transform: none; } }
 
-.tap-text {
-    position: absolute;
-    bottom: -40px;
-    width: 100%;
-    font-size: 12px;
-    color: #819181;
-}
+  .letter > * { margin: 0 0 var(--line); opacity: 0; animation: write 0.9s ease forwards; animation-delay: calc(0.7s + var(--i) * 0.75s); }
+  @keyframes write { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .date { color: var(--soft); font-style: italic; }
+  .greeting { font-size: 1.25rem; font-weight: 600; }
+  .signature {
+    font-family: "Homemade Apple", cursive; font-size: 1.4rem; margin: 0;
+    line-height: calc(var(--line) * 1.5); opacity: 1;
+    clip-path: inset(0 100% 0 0);
+    animation: sign 2s ease-out forwards; animation-delay: calc(0.7s + var(--i) * 0.75s);
+  }
+  @keyframes sign { to { clip-path: inset(0 0 0 0); } }
+  .again {
+    display: block; margin: calc(var(--line) * 1.5) 0 0; padding: 0; border: 0; background: none;
+    font: inherit; font-size: 0.9rem; font-style: italic; color: var(--soft); cursor: pointer; text-decoration: underline;
+    opacity: 0; animation: write 0.9s ease forwards; animation-delay: calc(0.7s + var(--i) * 0.75s);
+  }
+  .again:hover { color: var(--ink); }
+  .again:focus-visible { outline: 2px solid var(--soft); outline-offset: 3px; }
 
-/* LETTER */
-
-.letter {
-    display: none;
-    background: #fffdf7;
-    padding: 40px;
-    margin-top: 30px;
-    text-align: left;
-    border: 1px solid #eeeee5;
-    animation: appear 0.7s ease;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.date {
-    font-size: 11px;
-    color: #8b998a;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.letter h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 30px;
-    margin-top: 30px;
-}
-
-.story {
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    line-height: 1.9;
-    color: #596a5b;
-    white-space: pre-wrap;
-}
-
-.signoff {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    text-align: right;
-    margin-top: 30px;
-    color: #7c907e;
-}
-
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-}
-
-button {
-    border: none;
-    border-radius: 30px;
-    padding: 12px 18px;
-    background: #6f8b73;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-button.secondary {
-    background: #edf2e9;
-    color: #637b66;
-}
-
-/* WRITING */
-
-.write-area {
-    display: none;
-    margin-top: 25px;
-    padding: 20px;
-    background: #f8faf5;
-    border-radius: 12px;
-}
-
-label {
-    display: block;
-    text-align: left;
-    font-size: 11px;
-    margin: 15px 0 7px;
-    color: #748775;
-    font-weight: 600;
-}
-
-input, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #dfe7dc;
-    border-radius: 9px;
-    background: #fffefa;
-    font: inherit;
-    color: #344638;
-}
-
-textarea {
-    min-height: 180px;
-    resize: vertical;
-    line-height: 1.7;
-    font-family: 'Fraunces', serif;
-    font-size: 16px;
-}
-
-.history {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.history button {
-    background: none;
-    color: #829182;
-    text-decoration: underline;
-    font-size: 11px;
-}
-
-.history-list {
-    display: none;
-    margin-top: 15px;
-}
-
-.history-item {
-    background: #f8faf5;
-    padding: 12px;
-    margin-top: 8px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 12px;
-    text-align: left;
-}
-
-.footer {
-    margin-top: 30px;
-    color: #94a092;
-    font-size: 11px;
-}
-
-@media(max-width: 500px) {
-    .envelope {
-        width: 290px;
-        height: 200px;
-    }
-
-    .letter {
-        padding: 25px;
-    }
-
-    h1 {
-        font-size: 36px;
-    }
-}
+  @media (max-width: 480px) {
+    .letter { padding-left: 4rem; padding-right: 1.25rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .leaf, .seal { animation: none; }
+    .letter, .letter > *, .again { animation: none; opacity: 1; transform: none; clip-path: none; }
+    .env-flap, .envelope, .hint { transition: none; }
+  }
+  @media print {
+    body { background: none; } .leaves, .again { display: none; }
+    .letter { box-shadow: none; } .letter > * { opacity: 1; animation: none; clip-path: none; }
+  }
 </style>
 </head>
-
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="leaf" viewBox="0 0 24 24"><path d="M21 3C11 3 4 8 4 15c0 1.5.4 2.8 1 3.9C3.700 20 3 21 3 21l1.600.5c.4-.6 1-1.300 1.800-2C7.600 20.500 9.200 21 11 21c7 0 10-8 10-18z"/></symbol>
+  </svg>
+  <div class="leaves" aria-hidden="true">
+    <svg class="leaf"><use href="#leaf"/></svg><svg class="leaf"><use href="#leaf"/></svg>
+    <svg class="leaf"><use href="#leaf"/></svg><svg class="leaf"><use href="#leaf"/></svg>
+    <svg class="leaf"><use href="#leaf"/></svg><svg class="leaf"><use href="#leaf"/></svg>
+  </div>
 
-<div class="container">
+  <main class="stage" id="stage">
+    <button class="envelope" id="envelope" aria-label="Open the letter">
+      <span class="env-back"></span>
+      <span class="env-front"></span>
+      <span class="env-flap"></span>
+      <span class="seal"><svg viewBox="0 0 24 24"><use href="#leaf"/></svg></span>
+    </button>
+    <p class="hint">A letter for [Their name]. Tap to open.</p>
 
-    <div class="small-title">
-        A little something, just for you
-    </div>
-
-    <h1>A Little Note ♡</h1>
-
-    <div class="subtitle">
-        little stories from my everyday life
-    </div>
-
-    <!-- ENVELOPE -->
-
-    <div class="envelope-area" id="envelopeArea">
-
-        <div class="envelope" id="envelope">
-
-            <div class="envelope-back"></div>
-
-            <div class="envelope-front"></div>
-
-            <div class="envelope-flap"></div>
-
-            <div class="seal">✿</div>
-
-            <div class="tap-text">
-                tap to open your letter
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- LETTER -->
-
-    <div class="letter" id="letter">
-
-        <div class="date" id="date"></div>
-
-        <h2>Hey you,</h2>
-
-        <div class="story" id="story">
-        </div>
-
-        <div class="signoff">
-            take care, okay? ♡
-        </div>
-
-        <div class="buttons">
-
-            <button class="secondary" onclick="closeLetter()">
-                ← Close letter
-            </button>
-
-            <button onclick="toggleWrite()">
-                Write today's story
-            </button>
-
-        </div>
-
-        <!-- WRITING AREA -->
-
-        <div class="write-area" id="writeArea">
-
-            <label>DATE</label>
-            <input type="date" id="entryDate">
-
-            <label>WHAT HAPPENED TODAY?</label>
-
-            <textarea
-                id="entryText"
-                placeholder="Tell your story here..."
-            ></textarea>
-
-            <div class="buttons">
-
-                <button onclick="saveEntry()">
-                    Save letter ✓
-                </button>
-
-            </div>
-
-        </div>
-
-        <div class="history">
-
-            <button onclick="toggleHistory()">
-                read an older letter
-            </button>
-
-            <div class="history-list" id="historyList">
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="footer">
-        no big speeches. just little pieces of the day. 🌿
-    </div>
-
-</div>
+    <article class="letter" id="letter" hidden>
+      <p class="date" style="--i:0">[Date]</p>
+      <p class="greeting" style="--i:1">Dear [Their name],</p>
+      <p style="--i:2">I’ve started this letter more times than I can count. I’m not writing to reopen anything or to ask for anything. I’m writing because there are things I never said properly, and I’d rather say them now.</p>
+      <p style="--i:3">Thank you for the good parts. [A memory you’re grateful for, for example the trip, the late-night talks, the way they made you laugh.] I carry those with me, and I’m glad they happened.</p>
+      <p style="--i:4">I’m sorry for the ways I fell short. [Something you genuinely regret.] I understand now how that must have felt, and I wish I had done better.</p>
+      <p style="--i:5">I also forgive what hurt me. Holding onto it was getting heavy, and I want to put it down.</p>
+      <p style="--i:6">I hope you’re well. I hope you’re finding the kind of happiness you deserve, and that life is kind to you.</p>
+      <p style="--i:7">Take care of yourself,</p>
+      <p class="signature" style="--i:8">[Your name]</p>
+      <button class="again" id="again" style="--i:11">Fold it back up</button>
+    </article>
+  </main>
 
 <script>
+  const stage = document.getElementById('stage');
+  const envelope = document.getElementById('envelope');
+  const letter = document.getElementById('letter');
+  const again = document.getElementById('again');
+  const quick = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-let entries = JSON.parse(
-    localStorage.getItem("myDiary") || "[]"
-);
-
-const today = () =>
-    new Date().toISOString().slice(0, 10);
-
-function formatDate(date) {
-
-    return new Date(date + "T12:00:00")
-        .toLocaleDateString("en-US", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        });
-
-}
-
-// OPEN ENVELOPE
-
-document.getElementById("envelope")
-.addEventListener("click", function() {
-
-    this.classList.add("open");
-
+  envelope.addEventListener('click', () => {
+    stage.classList.add('opening');
     setTimeout(() => {
+      stage.classList.remove('opening');
+      stage.classList.add('reading');
+      letter.hidden = false;
+      window.scrollTo(0, 0);
+    }, quick ? 0 : 1500);
+  });
 
-        document.getElementById("envelopeArea")
-        .style.display = "none";
-
-        document.getElementById("letter")
-        .style.display = "block";
-
-        let entry = entries.find(
-            e => e.date === today()
-        ) || entries[0];
-
-        if (entry) {
-            showEntry(entry);
-        } else {
-            document.getElementById("date")
-            .innerText = formatDate(today());
-
-            document.getElementById("story")
-            .innerText = "Today is a blank page. Maybe you'd like to write the first little story?";
-
-            document.getElementById("entryDate")
-            .value = today();
-
-            document.getElementById("writeArea")
-            .style.display = "block";
-        }
-
-    }, 700);
-
-});
-
-// SHOW LETTER
-
-function showEntry(entry) {
-
-    document.getElementById("date")
-    .innerText = formatDate(entry.date);
-
-    document.getElementById("story")
-    .innerText = entry.text;
-
-    document.getElementById("entryDate")
-    .value = entry.date;
-
-    document.getElementById("entryText")
-    .value = entry.text;
-
-    document.getElementById("writeArea")
-    .style.display = "none";
-
-    renderHistory();
-
-}
-
-// CLOSE LETTER
-
-function closeLetter() {
-
-    document.getElementById("letter")
-    .style.display = "none";
-
-    document.getElementById("envelopeArea")
-    .style.display = "flex";
-
-    document.getElementById("envelope")
-    .classList.remove("open");
-
-}
-
-// WRITE
-
-function toggleWrite() {
-
-    let area = document.getElementById("writeArea");
-
-    area.style.display =
-        area.style.display === "block"
-        ? "none"
-        : "block";
-
-    document.getElementById("entryDate")
-    .value = today();
-
-}
-
-// SAVE ENTRY
-
-function saveEntry() {
-
-    let date = document.getElementById("entryDate").value;
-    let text = document.getElementById("entryText").value.trim();
-
-    if (!text) {
-        alert("Write something first 🙂");
-        return;
-    }
-
-    let index = entries.findIndex(
-        e => e.date === date
-    );
-
-    let newEntry = { date, text };
-
-    if (index >= 0) {
-        entries[index] = newEntry;
-    } else {
-        entries.push(newEntry);
-    }
-
-    entries.sort((a, b) => b.date.localeCompare(a.date));
-
-    localStorage.setItem(
-        "myDiary",
-        JSON.stringify(entries)
-    );
-
-    showEntry(newEntry);
-
-}
-
-// HISTORY
-
-function renderHistory() {
-
-    let list = document.getElementById("historyList");
-
-    list.innerHTML = "";
-
-    entries.forEach(entry => {
-
-        let item = document.createElement("div");
-
-        item.className = "history-item";
-
-        let heading = document.createElement("strong");
-        heading.innerText = formatDate(entry.date);
-
-        let preview = document.createElement("div");
-        preview.innerText = entry.text.slice(0, 80) + "...";
-
-        item.appendChild(heading);
-        item.appendChild(preview);
-
-        item.onclick = () => showEntry(entry);
-
-        list.appendChild(item);
-
-    });
-
-}
-
-function toggleHistory() {
-
-    let list = document.getElementById("historyList");
-
-    list.style.display =
-        list.style.display === "block"
-        ? "none"
-        : "block";
-
-}
-
+  again.addEventListener('click', () => {
+    letter.hidden = true;
+    stage.classList.remove('reading');
+    envelope.focus();
+  });
 </script>
-
 </body>
 </html>
