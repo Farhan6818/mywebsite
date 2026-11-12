@@ -50,6 +50,8 @@ textarea{min-height:180px;resize:vertical;line-height:1.7;font-family:'Fraunces'
 .footer,.status{margin-top:26px;color:var(--muted);font-size:11px}
 @media(max-width:500px){.envelope{width:290px;height:200px}.letter{padding:22px}h1{font-size:36px}}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 </head>
 <body>
 <div class="container">
@@ -105,14 +107,27 @@ textarea{min-height:180px;resize:vertical;line-height:1.7;font-family:'Fraunces'
 </div>
 
 <script>
+/* ============ PASTE YOUR FIREBASE SETTINGS HERE ============ */
+const firebaseConfig = {
+  apiKey: "PASTE_HERE",
+  authDomain: "PASTE_HERE",
+  projectId: "PASTE_HERE",
+  storageBucket: "PASTE_HERE",
+  messagingSenderId: "PASTE_HERE",
+  appId: "PASTE_HERE"
+};
+/* ============================================================ */
+
 const $ = id => document.getElementById(id);
-let db = null, key = "", letters = [], canWrite = true, shownDate = "", opened = false;
+let db = null, letters = [], shownDate = "", opened = false;
 
 function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+function slug(n) { return (n || "").trim().toLowerCase().replace(/[\/.\s]+/g, "-"); }
 function today() { const d = new Date(), p = n => String(n).padStart(2, "0"); return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()); }
 function fmt(d) { return new Date(d + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" }); }
 function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
-const mine = date => letters.find(l => l.date === date && l.author === key);
+const meKey = () => slug($("myName").value || store("diaryName") || "");
+const mine = date => letters.find(l => l.date === date && l.author === meKey());
 
 /* ---------- views ---------- */
 function route() {
@@ -143,8 +158,7 @@ $("closeBtn").onclick = () => {
 
 /* ---------- render ---------- */
 function render() {
-  if (!db) return;
-  // letters for the shown day
+  const saved = slug(store("diaryName") || "");
   if (opened) {
     const d = shownDate || today();
     $("date").textContent = fmt(d);
@@ -153,13 +167,12 @@ function render() {
     if (!day.length) box.appendChild(el("div", "empty", "A blank page. Maybe you’d like to write the first little story?"));
     day.forEach(l => {
       const n = el("div", "note"), who = el("div", "who");
-      who.appendChild(el("span", "", (l.name || "Someone") + (l.author === key ? " (you)" : "")));
-      if (l.author === key && canWrite) { const a = el("a", "", "edit"); a.onclick = () => startWriting(d); who.appendChild(a); }
+      const isMe = saved && l.author === saved;
+      who.appendChild(el("span", "", (l.name || "Someone") + (isMe ? " (you)" : "")));
+      if (isMe) { const a = el("a", "", "edit"); a.onclick = () => startWriting(d); who.appendChild(a); }
       n.appendChild(who); n.appendChild(el("div", "story", l.text)); box.appendChild(n);
     });
-    $("writeBtn").style.display = canWrite ? "" : "none";
   }
-  // archive list
   const list = $("archiveList"); list.innerHTML = "";
   const dates = [...new Set(letters.map(l => l.date))].sort().reverse();
   if (!dates.length) list.appendChild(el("div", "empty", "No letters yet."));
@@ -174,45 +187,43 @@ function render() {
 
 /* ---------- write ---------- */
 function startWriting(date) {
-  if (!canWrite) return;
   $("writeArea").style.display = "block";
   $("entryDate").value = date;
-  $("myName").value = (mine(date) && mine(date).name) || store("diaryName") || "";
+  $("myName").value = store("diaryName") || "";
   $("entryText").value = mine(date) ? mine(date).text : "";
   $("entryText").focus();
 }
 $("writeBtn").onclick = () => { const a = $("writeArea"); a.style.display === "block" ? a.style.display = "none" : startWriting(shownDate || today()); };
 $("entryDate").onchange = () => { const d = $("entryDate").value; $("entryText").value = mine(d) ? mine(d).text : ""; };
+$("myName").oninput = () => { const d = $("entryDate").value; if (mine(d)) $("entryText").value = mine(d).text; };
 
 $("saveBtn").onclick = async () => {
   const date = $("entryDate").value, text = $("entryText").value.trim(), name = $("myName").value.trim();
+  if (!db) return alert("Not connected yet. Check your Firebase settings.");
   if (!name) return alert("Add your name first 🙂");
   if (!date || !text) return alert("Write something first 🙂");
   store("diaryName", name);
+  const author = slug(name);
   try {
-    await db.collection("letters").doc(date + "_" + key).set({ date, text, name, author: key, updatedAt: Date.now() });
+    await db.collection("letters").doc(date + "_" + author).set({ date, text, name, author, updatedAt: Date.now() });
     shownDate = date; $("writeArea").style.display = "none"; render();
   } catch (e) {
-    alert("Couldn’t save. You may only have view access — ask the owner to make you a Contributor. (" + (e.code || e.message) + ")");
+    alert("Couldn’t save: " + (e.code || e.message));
   }
 };
 
 /* ---------- connect ---------- */
-(async () => {
-  try {
-    const user = await claude.use("user");
-    let id = user ? await user.id() : null;
-    if (!id) { id = store("diaryId") || Math.random().toString(36).slice(2, 10); store("diaryId", id); }
-    key = String(id).replace(/[^A-Za-z0-9_-]/g, "");
-    if (user) canWrite = (await user.can("data.write")) !== false;
-    db = await claude.use("db");
-    if (!db) { $("status").textContent = "Sign in to claude.ai to see and write letters."; return; }
-    db.collection("letters").orderBy("date", "desc").limit(500).onSnapshot(
-      snap => { letters = snap.docs.map(d => d.data()); $("status").textContent = canWrite ? "live ♡ — new letters appear here by themselves" : "live ♡ — you can read, but not write (ask for Contributor access)"; route(); },
-      e => { $("status").textContent = "Couldn’t load letters (" + e.code + ")."; }
-    );
-  } catch (e) { $("status").textContent = "Couldn’t connect right now."; }
-})();
+try {
+  if (firebaseConfig.apiKey === "PASTE_HERE") throw new Error("no config");
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  db.collection("letters").orderBy("date", "desc").limit(500).onSnapshot(
+    snap => { letters = snap.docs.map(d => d.data()); $("status").textContent = "live ♡ — new letters appear here by themselves"; route(); },
+    e => { $("status").textContent = "Couldn’t load letters (" + (e.code || e.message) + ")."; }
+  );
+} catch (e) {
+  $("status").textContent = "Paste your Firebase settings at the top of the script to turn on saving.";
+}
 </script>
 </body>
 </html>
