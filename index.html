@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,9 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -25,11 +22,7 @@ body {
     padding: 20px;
 }
 
-.container {
-    width: 100%;
-    max-width: 680px;
-    text-align: center;
-}
+.container { width: 100%; max-width: 680px; text-align: center; }
 
 .small-title {
     font-size: 11px;
@@ -38,24 +31,12 @@ body {
     color: #819482;
 }
 
-h1 {
-    font-family: 'Fraunces', serif;
-    font-size: 43px;
-    margin: 10px 0;
-}
+h1 { font-family: 'Fraunces', serif; font-size: 43px; margin: 10px 0; }
 
-.subtitle {
-    color: #7c8b7d;
-    font-size: 13px;
-}
+.subtitle { color: #7c8b7d; font-size: 13px; }
 
 /* ENVELOPE */
-
-.envelope-area {
-    margin-top: 80px;
-    display: flex;
-    justify-content: center;
-}
+.envelope-area { margin-top: 80px; display: flex; justify-content: center; }
 
 .envelope {
     position: relative;
@@ -67,16 +48,9 @@ h1 {
     box-shadow: 0 20px 40px #526c5730;
     transition: 0.3s;
 }
+.envelope:hover { transform: translateY(-5px); }
 
-.envelope:hover {
-    transform: translateY(-5px);
-}
-
-.envelope-back {
-    position: absolute;
-    inset: 0;
-    background: #d8e4d4;
-}
+.envelope-back { position: absolute; inset: 0; background: #d8e4d4; }
 
 .envelope-flap {
     position: absolute;
@@ -93,16 +67,9 @@ h1 {
 .envelope-front {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        145deg,
-        transparent 49.5%,
-        #b9cdb9 50%
-    ) left bottom / 50% 100% no-repeat,
-    linear-gradient(
-        215deg,
-        transparent 49.5%,
-        #c3d5c1 50%
-    ) right bottom / 50% 100% no-repeat;
+    background:
+        linear-gradient(145deg, transparent 49.5%, #b9cdb9 50%) left bottom / 50% 100% no-repeat,
+        linear-gradient(215deg, transparent 49.5%, #c3d5c1 50%) right bottom / 50% 100% no-repeat;
 }
 
 .seal {
@@ -121,24 +88,16 @@ h1 {
     transition: 0.3s;
 }
 
-.envelope.open .envelope-flap {
-    transform: rotateX(180deg);
-}
+.envelope.open .envelope-flap { transform: rotateX(180deg); }
+.envelope.open .seal { opacity: 0; }
 
-.envelope.open .seal {
-    opacity: 0;
-}
+.tap-text { position: absolute; bottom: -40px; width: 100%; font-size: 12px; color: #819181; }
 
-.tap-text {
-    position: absolute;
-    bottom: -40px;
-    width: 100%;
-    font-size: 12px;
-    color: #819181;
-}
+/* NEW: quick write button on the envelope screen */
+.quick-write { margin-top: 70px; }
+.quick-write button { padding: 12px 22px; }
 
 /* LETTER */
-
 .letter {
     display: none;
     background: #fffdf7;
@@ -150,28 +109,13 @@ h1 {
 }
 
 @keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.date {
-    font-size: 11px;
-    color: #8b998a;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
+.date { font-size: 11px; color: #8b998a; letter-spacing: 1px; text-transform: uppercase; }
 
-.letter h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 30px;
-    margin-top: 30px;
-}
+.letter h2 { font-family: 'Fraunces', serif; font-size: 30px; margin-top: 30px; }
 
 .story {
     font-family: 'Fraunces', serif;
@@ -181,21 +125,9 @@ h1 {
     white-space: pre-wrap;
 }
 
-.signoff {
-    font-family: 'Fraunces', serif;
-    font-style: italic;
-    text-align: right;
-    margin-top: 30px;
-    color: #7c907e;
-}
+.signoff { font-family: 'Fraunces', serif; font-style: italic; text-align: right; margin-top: 30px; color: #7c907e; }
 
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 30px;
-    flex-wrap: wrap;
-}
+.buttons { display: flex; justify-content: space-between; gap: 10px; margin-top: 30px; flex-wrap: wrap; }
 
 button {
     border: none;
@@ -205,31 +137,15 @@ button {
     color: white;
     cursor: pointer;
     font-weight: 600;
+    font-family: inherit;
 }
-
-button.secondary {
-    background: #edf2e9;
-    color: #637b66;
-}
+button.secondary { background: #edf2e9; color: #637b66; }
 
 /* WRITING */
+.write-area { display: none; margin-top: 25px; padding: 20px; background: #f8faf5; border-radius: 12px; }
 
-.write-area {
-    display: none;
-    margin-top: 25px;
-    padding: 20px;
-    background: #f8faf5;
-    border-radius: 12px;
-}
-
-label {
-    display: block;
-    text-align: left;
-    font-size: 11px;
-    margin: 15px 0 7px;
-    color: #748775;
-    font-weight: 600;
-}
+label { display: block; text-align: left; font-size: 11px; margin: 15px 0 7px; color: #748775; font-weight: 600; }
+label:first-child { margin-top: 0; }
 
 input, textarea {
     width: 100%;
@@ -249,22 +165,13 @@ textarea {
     font-size: 16px;
 }
 
-.history {
-    margin-top: 20px;
-    text-align: center;
-}
+.write-area .buttons { margin-top: 20px; align-items: center; }
 
-.history button {
-    background: none;
-    color: #829182;
-    text-decoration: underline;
-    font-size: 11px;
-}
+button.danger { background: none; color: #b07a72; text-decoration: underline; font-size: 12px; padding: 8px; display: none; }
 
-.history-list {
-    display: none;
-    margin-top: 15px;
-}
+.history { margin-top: 20px; text-align: center; }
+.history > button { background: none; color: #829182; text-decoration: underline; font-size: 11px; }
+.history-list { display: none; margin-top: 15px; }
 
 .history-item {
     background: #f8faf5;
@@ -276,25 +183,12 @@ textarea {
     text-align: left;
 }
 
-.footer {
-    margin-top: 30px;
-    color: #94a092;
-    font-size: 11px;
-}
+.footer { margin-top: 30px; color: #94a092; font-size: 11px; }
 
 @media(max-width: 500px) {
-    .envelope {
-        width: 290px;
-        height: 200px;
-    }
-
-    .letter {
-        padding: 25px;
-    }
-
-    h1 {
-        font-size: 36px;
-    }
+    .envelope { width: 290px; height: 200px; }
+    .letter { padding: 25px; }
+    h1 { font-size: 36px; }
 }
 </style>
 </head>
@@ -303,297 +197,261 @@ textarea {
 
 <div class="container">
 
-    <div class="small-title">
-        A little something, just for you
-    </div>
-
+    <div class="small-title">A little something, just for you</div>
     <h1>A Little Note ♡</h1>
+    <div class="subtitle">little stories from my everyday life</div>
 
-    <div class="subtitle">
-        little stories from my everyday life
-    </div>
+    <!-- FRONT SCREEN: envelope + quick write -->
+    <div id="front">
 
-    <!-- ENVELOPE -->
-
-    <div class="envelope-area" id="envelopeArea">
-
-        <div class="envelope" id="envelope">
-
-            <div class="envelope-back"></div>
-
-            <div class="envelope-front"></div>
-
-            <div class="envelope-flap"></div>
-
-            <div class="seal">✿</div>
-
-            <div class="tap-text">
-                tap to open your letter
+        <div class="envelope-area">
+            <div class="envelope" id="envelope">
+                <div class="envelope-back"></div>
+                <div class="envelope-front"></div>
+                <div class="envelope-flap"></div>
+                <div class="seal">✿</div>
+                <div class="tap-text">tap to open your letter</div>
             </div>
+        </div>
 
+        <div class="quick-write">
+            <button class="secondary" id="quickWriteBtn">✎ Write today's story</button>
         </div>
 
     </div>
 
     <!-- LETTER -->
-
     <div class="letter" id="letter">
 
         <div class="date" id="date"></div>
 
         <h2>Hey you,</h2>
 
-        <div class="story" id="story">
-        </div>
+        <div class="story" id="story"></div>
 
-        <div class="signoff">
-            take care, okay? ♡
-        </div>
+        <div class="signoff">take care, okay? ♡</div>
 
         <div class="buttons">
-
-            <button class="secondary" onclick="closeLetter()">
-                ← Close letter
-            </button>
-
-            <button onclick="toggleWrite()">
-                Write today's story
-            </button>
-
+            <button class="secondary" onclick="closeLetter()">← Close letter</button>
+            <button onclick="toggleWrite()">Write today's story</button>
         </div>
 
         <!-- WRITING AREA -->
-
         <div class="write-area" id="writeArea">
 
             <label>DATE</label>
             <input type="date" id="entryDate">
 
             <label>WHAT HAPPENED TODAY?</label>
-
-            <textarea
-                id="entryText"
-                placeholder="Tell your story here..."
-            ></textarea>
+            <textarea id="entryText" placeholder="Tell your story here..."></textarea>
 
             <div class="buttons">
-
-                <button onclick="saveEntry()">
-                    Save letter ✓
-                </button>
-
+                <button onclick="saveEntry()">Save letter ✓</button>
+                <button class="danger" id="deleteBtn" onclick="deleteEntry()">delete this letter</button>
             </div>
 
         </div>
 
         <div class="history">
-
-            <button onclick="toggleHistory()">
-                read an older letter
-            </button>
-
-            <div class="history-list" id="historyList">
-            </div>
-
+            <button onclick="toggleHistory()">read an older letter</button>
+            <div class="history-list" id="historyList"></div>
         </div>
 
     </div>
 
-    <div class="footer">
-        no big speeches. just little pieces of the day. 🌿
-    </div>
+    <div class="footer">no big speeches. just little pieces of the day. 🌿</div>
 
 </div>
 
 <script>
 
-let entries = JSON.parse(
-    localStorage.getItem("myDiary") || "[]"
-);
+// ---------- STORAGE (safe, won't crash if storage is blocked) ----------
+let warnedAboutStorage = false;
 
-const today = () =>
-    new Date().toISOString().slice(0, 10);
-
-function formatDate(date) {
-
-    return new Date(date + "T12:00:00")
-        .toLocaleDateString("en-US", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric"
-        });
-
+function loadEntries() {
+    try {
+        return JSON.parse(localStorage.getItem("myDiary") || "[]");
+    } catch (e) {
+        return [];
+    }
 }
 
-// OPEN ENVELOPE
+function persist() {
+    try {
+        localStorage.setItem("myDiary", JSON.stringify(entries));
+    } catch (e) {
+        if (!warnedAboutStorage) {
+            warnedAboutStorage = true;
+            alert("This browser won't let me save your letters, so they'll disappear when you close the page.");
+        }
+    }
+}
 
-document.getElementById("envelope")
-.addEventListener("click", function() {
+let entries = loadEntries();
 
-    this.classList.add("open");
+// ---------- HELPERS ----------
+
+// Uses YOUR local date (the old version used UTC, which can show yesterday in the morning)
+function today() {
+    const d = new Date();
+    const p = n => String(n).padStart(2, "0");
+    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
+}
+
+function formatDate(date) {
+    return new Date(date + "T12:00:00").toLocaleDateString("en-US", {
+        weekday: "long", day: "numeric", month: "long", year: "numeric"
+    });
+}
+
+const $ = id => document.getElementById(id);
+
+// ---------- OPEN / CLOSE ----------
+
+function openEnvelope(writeMode) {
+    $("envelope").classList.add("open");
 
     setTimeout(() => {
+        $("front").style.display = "none";
+        $("letter").style.display = "block";
+        renderHistory();
 
-        document.getElementById("envelopeArea")
-        .style.display = "none";
+        if (writeMode) {
+            const entry = entries.find(e => e.date === today()) || entries[0];
+            if (entry) showEntry(entry); else showBlank();
+            startWriting(today());
+            return;
+        }
 
-        document.getElementById("letter")
-        .style.display = "block";
-
-        let entry = entries.find(
-            e => e.date === today()
-        ) || entries[0];
-
+        const entry = entries.find(e => e.date === today()) || entries[0];
         if (entry) {
             showEntry(entry);
         } else {
-            document.getElementById("date")
-            .innerText = formatDate(today());
-
-            document.getElementById("story")
-            .innerText = "Today is a blank page. Maybe you'd like to write the first little story?";
-
-            document.getElementById("entryDate")
-            .value = today();
-
-            document.getElementById("writeArea")
-            .style.display = "block";
+            showBlank();
+            startWriting(today());
         }
-
     }, 700);
-
-});
-
-// SHOW LETTER
-
-function showEntry(entry) {
-
-    document.getElementById("date")
-    .innerText = formatDate(entry.date);
-
-    document.getElementById("story")
-    .innerText = entry.text;
-
-    document.getElementById("entryDate")
-    .value = entry.date;
-
-    document.getElementById("entryText")
-    .value = entry.text;
-
-    document.getElementById("writeArea")
-    .style.display = "none";
-
-    renderHistory();
-
 }
 
-// CLOSE LETTER
+$("envelope").addEventListener("click", () => openEnvelope(false));
+$("quickWriteBtn").addEventListener("click", () => openEnvelope(true));
 
 function closeLetter() {
-
-    document.getElementById("letter")
-    .style.display = "none";
-
-    document.getElementById("envelopeArea")
-    .style.display = "flex";
-
-    document.getElementById("envelope")
-    .classList.remove("open");
-
+    $("letter").style.display = "none";
+    $("front").style.display = "block";
+    $("envelope").classList.remove("open");
 }
 
-// WRITE
+// ---------- SHOW ----------
+
+function showBlank() {
+    $("date").innerText = formatDate(today());
+    $("story").innerText = "Today is a blank page. Maybe you'd like to write the first little story?";
+}
+
+function showEntry(entry) {
+    $("date").innerText = formatDate(entry.date);
+    $("story").innerText = entry.text;
+    $("writeArea").style.display = "none";
+    renderHistory();
+}
+
+// ---------- WRITE ----------
+
+// Opens the writing box for a date, filled with that day's letter if one exists
+function startWriting(date) {
+    $("writeArea").style.display = "block";
+    $("entryDate").value = date;
+    loadDraft();
+    $("entryText").focus();
+}
+
+// Fills the textarea with the saved letter for the chosen date (or empties it)
+function loadDraft() {
+    const date = $("entryDate").value;
+    const existing = entries.find(e => e.date === date);
+    $("entryText").value = existing ? existing.text : "";
+    $("deleteBtn").style.display = existing ? "inline-block" : "none";
+}
+
+$("entryDate").addEventListener("change", loadDraft);
 
 function toggleWrite() {
-
-    let area = document.getElementById("writeArea");
-
-    area.style.display =
-        area.style.display === "block"
-        ? "none"
-        : "block";
-
-    document.getElementById("entryDate")
-    .value = today();
-
+    const area = $("writeArea");
+    if (area.style.display === "block") {
+        area.style.display = "none";
+    } else {
+        startWriting(today());
+    }
 }
 
-// SAVE ENTRY
-
 function saveEntry() {
+    const date = $("entryDate").value;
+    const text = $("entryText").value.trim();
 
-    let date = document.getElementById("entryDate").value;
-    let text = document.getElementById("entryText").value.trim();
-
+    if (!date) {
+        alert("Pick a date first 🙂");
+        return;
+    }
     if (!text) {
         alert("Write something first 🙂");
         return;
     }
 
-    let index = entries.findIndex(
-        e => e.date === date
-    );
+    const newEntry = { date, text };
+    const index = entries.findIndex(e => e.date === date);
 
-    let newEntry = { date, text };
-
-    if (index >= 0) {
-        entries[index] = newEntry;
-    } else {
-        entries.push(newEntry);
-    }
+    if (index >= 0) entries[index] = newEntry;
+    else entries.push(newEntry);
 
     entries.sort((a, b) => b.date.localeCompare(a.date));
-
-    localStorage.setItem(
-        "myDiary",
-        JSON.stringify(entries)
-    );
-
+    persist();
     showEntry(newEntry);
-
 }
 
-// HISTORY
+function deleteEntry() {
+    const date = $("entryDate").value;
+    if (!confirm("Delete this letter? This can't be undone.")) return;
+
+    entries = entries.filter(e => e.date !== date);
+    persist();
+
+    if (entries.length) {
+        showEntry(entries[0]);
+    } else {
+        showBlank();
+        renderHistory();
+        startWriting(today());
+    }
+}
+
+// ---------- HISTORY ----------
 
 function renderHistory() {
-
-    let list = document.getElementById("historyList");
-
+    const list = $("historyList");
     list.innerHTML = "";
 
     entries.forEach(entry => {
-
-        let item = document.createElement("div");
-
+        const item = document.createElement("div");
         item.className = "history-item";
 
-        let heading = document.createElement("strong");
+        const heading = document.createElement("strong");
         heading.innerText = formatDate(entry.date);
 
-        let preview = document.createElement("div");
-        preview.innerText = entry.text.slice(0, 80) + "...";
+        const preview = document.createElement("div");
+        preview.innerText = entry.text.slice(0, 80) + (entry.text.length > 80 ? "..." : "");
 
         item.appendChild(heading);
         item.appendChild(preview);
-
         item.onclick = () => showEntry(entry);
 
         list.appendChild(item);
-
     });
-
 }
 
 function toggleHistory() {
-
-    let list = document.getElementById("historyList");
-
-    list.style.display =
-        list.style.display === "block"
-        ? "none"
-        : "block";
-
+    const list = $("historyList");
+    list.style.display = list.style.display === "block" ? "none" : "block";
 }
 
 </script>
