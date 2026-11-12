@@ -1,360 +1,602 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Little Letter For You ♡</title>
+<title>A Little Note ♡</title>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; }
-
-html, body { height: 100%; }
+* {
+    box-sizing: border-box;
+}
 
 body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: "Trebuchet MS", Arial, sans-serif;
-  color: #874b65;
-  background: linear-gradient(135deg, #ffe2ec, #fff5f8, #fbd9e9);
-  background-attachment: fixed;
-  overflow-x: hidden;
+    margin: 0;
+    min-height: 100vh;
+    background: #e8efe5;
+    color: #344638;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
-/* ---------- floating hearts ---------- */
-.hearts {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-.heart {
-  position: absolute;
-  bottom: -40px;
-  opacity: 0;
-  animation: floatUp 7s linear forwards;
-}
-@keyframes floatUp {
-  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-  15%  { opacity: 0.7; }
-  100% { transform: translateY(-110vh) rotate(35deg); opacity: 0; }
+.container {
+    width: 100%;
+    max-width: 680px;
+    text-align: center;
 }
 
-/* ---------- layout ---------- */
-main {
-  position: relative;
-  z-index: 1;
-  width: min(92%, 520px);
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 35px 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Only ONE page is visible at a time */
-.page {
-  display: none;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid white;
-  border-radius: 28px;
-  padding: 30px 22px;
-  box-shadow: 0 12px 35px rgba(189, 113, 144, 0.2);
-}
-.page.active {
-  display: block;
-  animation: fadeIn 0.6s ease both;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.small {
-  font-size: 12px;
-  letter-spacing: 2px;
-  color: #bd7994;
-  text-transform: uppercase;
+.small-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #819482;
 }
 
 h1 {
-  font-size: clamp(28px, 7vw, 40px);
-  line-height: 1.25;
-  margin: 16px 0;
+    font-family: 'Fraunces', serif;
+    font-size: 43px;
+    margin: 10px 0;
 }
 
-p {
-  font-size: 15px;
-  line-height: 1.85;
-  margin: 0 0 14px;
+.subtitle {
+    color: #7c8b7d;
+    font-size: 13px;
 }
 
-/* ---------- envelope ---------- */
+/* ENVELOPE */
+
+.envelope-area {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+}
+
 .envelope {
-  font-size: 90px;
-  margin: 20px 0;
-  display: inline-block;
-  animation: wiggle 2s infinite ease-in-out;
-}
-.envelope.opening {
-  animation: openPop 0.7s ease forwards;
-}
-@keyframes wiggle {
-  0%, 100% { transform: rotate(-5deg) translateY(0); }
-  50%      { transform: rotate(5deg) translateY(-8px); }
-}
-@keyframes openPop {
-  0%   { transform: scale(1) rotate(0deg); opacity: 1; }
-  40%  { transform: scale(1.35) rotate(-8deg); opacity: 1; }
-  100% { transform: scale(0.2) translateY(-60px); opacity: 0; }
+    position: relative;
+    width: 350px;
+    height: 230px;
+    background: #cbd9c8;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 0 20px 40px #526c5730;
+    transition: 0.3s;
 }
 
-/* ---------- buttons ---------- */
-button {
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: bold;
-  border: 0;
-  border-radius: 30px;
-  padding: 14px 22px;
-  margin: 7px 3px;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
+.envelope:hover {
+    transform: translateY(-5px);
 }
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(232, 139, 173, 0.4);
-}
-button:focus-visible {
-  outline: 3px solid #bd7994;
-  outline-offset: 3px;
-}
-.primary   { background: #e88bad; color: #fff; }
-.secondary { background: #fff0f5; color: #9c5774; border: 1px solid #f0c7d8; }
 
-/* ---------- letter ---------- */
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: #d8e4d4;
+}
+
+.envelope-flap {
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    top: 0;
+    background: #c0d2bd;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top;
+    transition: 0.7s;
+    z-index: 4;
+}
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        145deg,
+        transparent 49.5%,
+        #b9cdb9 50%
+    ) left bottom / 50% 100% no-repeat,
+    linear-gradient(
+        215deg,
+        transparent 49.5%,
+        #c3d5c1 50%
+    ) right bottom / 50% 100% no-repeat;
+}
+
+.seal {
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f6f3e9;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    z-index: 5;
+    transition: 0.3s;
+}
+
+.envelope.open .envelope-flap {
+    transform: rotateX(180deg);
+}
+
+.envelope.open .seal {
+    opacity: 0;
+}
+
+.tap-text {
+    position: absolute;
+    bottom: -40px;
+    width: 100%;
+    font-size: 12px;
+    color: #819181;
+}
+
+/* LETTER */
+
 .letter {
-  text-align: left;
-  background: #fffafd;
-  border: 1px dashed #e5a6bf;
-  border-radius: 18px;
-  padding: 18px;
-  margin: 20px 0;
-}
-/* each paragraph fades in one after another */
-.page.active .letter p {
-  opacity: 0;
-  animation: fadeIn 0.7s ease forwards;
-}
-.page.active .letter p:nth-child(1) { animation-delay: 0.3s; }
-.page.active .letter p:nth-child(2) { animation-delay: 0.9s; }
-.page.active .letter p:nth-child(3) { animation-delay: 1.5s; }
-.page.active .letter p:nth-child(4) { animation-delay: 2.1s; }
-.page.active .letter p:nth-child(5) { animation-delay: 2.7s; }
-.page.active .letter p:nth-child(6) { animation-delay: 3.3s; }
-
-.signature {
-  text-align: right;
-  font-style: italic;
-  color: #bc6c8f;
+    display: none;
+    background: #fffdf7;
+    padding: 40px;
+    margin-top: 30px;
+    text-align: left;
+    border: 1px solid #eeeee5;
+    animation: appear 0.7s ease;
 }
 
-/* ---------- question page ---------- */
-.big-heart {
-  font-size: 55px;
-  display: inline-block;
-  animation: beat 1.2s infinite;
-}
-@keyframes beat {
-  0%, 100% { transform: scale(1); }
-  15%      { transform: scale(1.15); }
-  30%      { transform: scale(1); }
-}
-
-#reply {
-  margin-top: 18px;
-  padding: 15px;
-  border-radius: 15px;
-  background: #fff0f5;
-  line-height: 1.8;
-  animation: fadeIn 0.5s ease both;
-}
-#reply[hidden] { display: none; }
-
-footer {
-  text-align: center;
-  color: #ad7890;
-  font-size: 12px;
-  margin-top: 20px;
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-delay: 0s !important;
-    animation-iteration-count: 1 !important;
-  }
+.date {
+    font-size: 11px;
+    color: #8b998a;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.letter h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    margin-top: 30px;
+}
+
+.story {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 1.9;
+    color: #596a5b;
+    white-space: pre-wrap;
+}
+
+.signoff {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    text-align: right;
+    margin-top: 30px;
+    color: #7c907e;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+button {
+    border: none;
+    border-radius: 30px;
+    padding: 12px 18px;
+    background: #6f8b73;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button.secondary {
+    background: #edf2e9;
+    color: #637b66;
+}
+
+/* WRITING */
+
+.write-area {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    background: #f8faf5;
+    border-radius: 12px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    font-size: 11px;
+    margin: 15px 0 7px;
+    color: #748775;
+    font-weight: 600;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dfe7dc;
+    border-radius: 9px;
+    background: #fffefa;
+    font: inherit;
+    color: #344638;
+}
+
+textarea {
+    min-height: 180px;
+    resize: vertical;
+    line-height: 1.7;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+}
+
+.history {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.history button {
+    background: none;
+    color: #829182;
+    text-decoration: underline;
+    font-size: 11px;
+}
+
+.history-list {
+    display: none;
+    margin-top: 15px;
+}
+
+.history-item {
+    background: #f8faf5;
+    padding: 12px;
+    margin-top: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    text-align: left;
+}
+
+.footer {
+    margin-top: 30px;
+    color: #94a092;
+    font-size: 11px;
+}
+
+@media(max-width: 500px) {
+    .envelope {
+        width: 290px;
+        height: 200px;
+    }
+
+    .letter {
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
 }
 </style>
 </head>
 
 <body>
-<div class="hearts" id="hearts"></div>
 
-<main>
+<div class="container">
 
-  <!-- PAGE 1: OPENING -->
-  <section class="page active" id="opening">
-    <div class="small">A tiny website, made for you ♡</div>
-    <div class="envelope" id="envelope">💌</div>
-
-    <h1>Hiii Herraaa ♡</h1>
-
-    <p>
-      I made a little something just for you. <br>
-      Can you open it?
-    </p>
-
-    <button type="button" class="primary" onclick="openLetter()">
-      Open my letter ♡
-    </button>
-  </section>
-
-  <!-- PAGE 2: LOVE LETTER -->
-  <section class="page" id="letterPage">
-    <div class="small">Just between you and me ♡</div>
-    <h1>A Letter For You 💗</h1>
-
-    <div class="letter">
-      <p>Halooo ♡</p>
-
-      <p>
-        I don't really know how to put everything into words,
-        but I wanted to make something special just for you.
-      </p>
-
-      <p>
-        I'm sorry for the things that happened between us.
-        I know that words alone can't fix everything, and I
-        understand that trust takes time to rebuild.
-      </p>
-
-      <p>
-        I've been thinking about us and the things I could have
-        done better. I'm trying to become a better person, not
-        just by saying it, but by showing it through my actions.
-      </p>
-
-      <p>
-        I still care about you, and I miss the little moments
-        we shared. I'm not asking you to forget the past or
-        make any decisions right now. I just wanted you to
-        know how I feel, honestly.
-      </p>
-
-      <p class="signature">
-        Sincerely,<br>
-        [Muhammad] 
-      </p>
+    <div class="small-title">
+        A little something, just for you
     </div>
 
-    <button type="button" class="primary" onclick="showQuestion()">
-      One more thing... 💗
-    </button>
-  </section>
+    <h1>A Little Note ♡</h1>
 
-  <!-- PAGE 3: DATE INVITATION -->
-  <section class="page" id="questionPage">
-    <div class="big-heart">💗</div>
-    <div class="small">My little question</div>
+    <div class="subtitle">
+        little stories from my everyday life
+    </div>
 
-    <h1>Can I take you out? 🌷</h1>
+    <!-- ENVELOPE -->
 
-    <p>
-      Would you be comfortable going out with me next wekeend?
-      Dont worry i already  have the tentative.
-      No pressure at all. ♡
-    </p>
+    <div class="envelope-area" id="envelopeArea">
 
-    <button type="button" class="primary" onclick="answerYes()">
-      I'd love to! 
-    </button>
+        <div class="envelope" id="envelope">
 
-    <button type="button" class="secondary" onclick="answerTime()">
-      I need some time 
-    </button>
+            <div class="envelope-back"></div>
 
-    <div id="reply" hidden aria-live="polite"></div>
-  </section>
+            <div class="envelope-front"></div>
 
-  <footer>made with ♡, just for you</footer>
-</main>
+            <div class="envelope-flap"></div>
+
+            <div class="seal">✿</div>
+
+            <div class="tap-text">
+                tap to open your letter
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- LETTER -->
+
+    <div class="letter" id="letter">
+
+        <div class="date" id="date"></div>
+
+        <h2>Hey you,</h2>
+
+        <div class="story" id="story">
+        </div>
+
+        <div class="signoff">
+            take care, okay? ♡
+        </div>
+
+        <div class="buttons">
+
+            <button class="secondary" onclick="closeLetter()">
+                ← Close letter
+            </button>
+
+            <button onclick="toggleWrite()">
+                Write today's story
+            </button>
+
+        </div>
+
+        <!-- WRITING AREA -->
+
+        <div class="write-area" id="writeArea">
+
+            <label>DATE</label>
+            <input type="date" id="entryDate">
+
+            <label>WHAT HAPPENED TODAY?</label>
+
+            <textarea
+                id="entryText"
+                placeholder="Tell your story here..."
+            ></textarea>
+
+            <div class="buttons">
+
+                <button onclick="saveEntry()">
+                    Save letter ✓
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="history">
+
+            <button onclick="toggleHistory()">
+                read an older letter
+            </button>
+
+            <div class="history-list" id="historyList">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        no big speeches. just little pieces of the day. 🌿
+    </div>
+
+</div>
 
 <script>
-// Show only the requested page
-function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(function (page) {
-    page.classList.remove("active");
-  });
-  document.getElementById(pageId).classList.add("active");
-  window.scrollTo({ top: 0, behavior: "smooth" });
+
+let entries = JSON.parse(
+    localStorage.getItem("myDiary") || "[]"
+);
+
+const today = () =>
+    new Date().toISOString().slice(0, 10);
+
+function formatDate(date) {
+
+    return new Date(date + "T12:00:00")
+        .toLocaleDateString("en-US", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+
 }
 
-// Envelope "opens" first, then the letter appears
-function openLetter() {
-  var envelope = document.getElementById("envelope");
-  envelope.classList.add("opening");
-  burstHearts();
-  setTimeout(function () {
-    showPage("letterPage");
-  }, 700);
+// OPEN ENVELOPE
+
+document.getElementById("envelope")
+.addEventListener("click", function() {
+
+    this.classList.add("open");
+
+    setTimeout(() => {
+
+        document.getElementById("envelopeArea")
+        .style.display = "none";
+
+        document.getElementById("letter")
+        .style.display = "block";
+
+        let entry = entries.find(
+            e => e.date === today()
+        ) || entries[0];
+
+        if (entry) {
+            showEntry(entry);
+        } else {
+            document.getElementById("date")
+            .innerText = formatDate(today());
+
+            document.getElementById("story")
+            .innerText = "Today is a blank page. Maybe you'd like to write the first little story?";
+
+            document.getElementById("entryDate")
+            .value = today();
+
+            document.getElementById("writeArea")
+            .style.display = "block";
+        }
+
+    }, 700);
+
+});
+
+// SHOW LETTER
+
+function showEntry(entry) {
+
+    document.getElementById("date")
+    .innerText = formatDate(entry.date);
+
+    document.getElementById("story")
+    .innerText = entry.text;
+
+    document.getElementById("entryDate")
+    .value = entry.date;
+
+    document.getElementById("entryText")
+    .value = entry.text;
+
+    document.getElementById("writeArea")
+    .style.display = "none";
+
+    renderHistory();
+
 }
 
-function showQuestion() {
-  showPage("questionPage");
+// CLOSE LETTER
+
+function closeLetter() {
+
+    document.getElementById("letter")
+    .style.display = "none";
+
+    document.getElementById("envelopeArea")
+    .style.display = "flex";
+
+    document.getElementById("envelope")
+    .classList.remove("open");
+
 }
 
-function answerYes() {
-  var reply = document.getElementById("reply");
-  reply.hidden = false;
-  reply.innerHTML =
-    "Thank you for being open to it. " +
-    "Just hit me up after this and i will give u the tentative";
-  burstHearts();
+// WRITE
+
+function toggleWrite() {
+
+    let area = document.getElementById("writeArea");
+
+    area.style.display =
+        area.style.display === "block"
+        ? "none"
+        : "block";
+
+    document.getElementById("entryDate")
+    .value = today();
+
 }
 
-function answerTime() {
-  var reply = document.getElementById("reply");
-  reply.hidden = false;
-  reply.innerHTML =
-    "That's okay, take all the time you need. 🤍<br>" +
-    "I respect your feelings. There's no pressure to answer now.";
+// SAVE ENTRY
+
+function saveEntry() {
+
+    let date = document.getElementById("entryDate").value;
+    let text = document.getElementById("entryText").value.trim();
+
+    if (!text) {
+        alert("Write something first 🙂");
+        return;
+    }
+
+    let index = entries.findIndex(
+        e => e.date === date
+    );
+
+    let newEntry = { date, text };
+
+    if (index >= 0) {
+        entries[index] = newEntry;
+    } else {
+        entries.push(newEntry);
+    }
+
+    entries.sort((a, b) => b.date.localeCompare(a.date));
+
+    localStorage.setItem(
+        "myDiary",
+        JSON.stringify(entries)
+    );
+
+    showEntry(newEntry);
+
 }
 
-// Floating hearts
-var heartContainer = document.getElementById("hearts");
-var symbols = ["♡", "♥", "💕", "💗"];
+// HISTORY
 
-function createHeart() {
-  var heart = document.createElement("span");
-  heart.className = "heart";
-  heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.fontSize = (15 + Math.random() * 22) + "px";
-  heart.style.animationDuration = (5 + Math.random() * 5) + "s";
-  heartContainer.appendChild(heart);
-  setTimeout(function () { heart.remove(); }, 11000);
+function renderHistory() {
+
+    let list = document.getElementById("historyList");
+
+    list.innerHTML = "";
+
+    entries.forEach(entry => {
+
+        let item = document.createElement("div");
+
+        item.className = "history-item";
+
+        let heading = document.createElement("strong");
+        heading.innerText = formatDate(entry.date);
+
+        let preview = document.createElement("div");
+        preview.innerText = entry.text.slice(0, 80) + "...";
+
+        item.appendChild(heading);
+        item.appendChild(preview);
+
+        item.onclick = () => showEntry(entry);
+
+        list.appendChild(item);
+
+    });
+
 }
 
-setInterval(createHeart, 450);
+function toggleHistory() {
 
-function burstHearts() {
-  for (var i = 0; i < 18; i++) {
-    setTimeout(createHeart, i * 100);
-  }
+    let list = document.getElementById("historyList");
+
+    list.style.display =
+        list.style.display === "block"
+        ? "none"
+        : "block";
+
 }
+
 </script>
+
 </body>
 </html>
