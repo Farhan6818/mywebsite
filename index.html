@@ -2,459 +2,217 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>A Little Note ♡</title>
-
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
-
 <style>
-* { box-sizing: border-box; }
-
-body {
-    margin: 0;
-    min-height: 100vh;
-    background: #e8efe5;
-    color: #344638;
-    font-family: 'DM Sans', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.container { width: 100%; max-width: 680px; text-align: center; }
-
-.small-title {
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #819482;
-}
-
-h1 { font-family: 'Fraunces', serif; font-size: 43px; margin: 10px 0; }
-
-.subtitle { color: #7c8b7d; font-size: 13px; }
-
-/* ENVELOPE */
-.envelope-area { margin-top: 80px; display: flex; justify-content: center; }
-
-.envelope {
-    position: relative;
-    width: 350px;
-    height: 230px;
-    background: #cbd9c8;
-    cursor: pointer;
-    border-radius: 8px;
-    box-shadow: 0 20px 40px #526c5730;
-    transition: 0.3s;
-}
-.envelope:hover { transform: translateY(-5px); }
-
-.envelope-back { position: absolute; inset: 0; background: #d8e4d4; }
-
-.envelope-flap {
-    position: absolute;
-    width: 100%;
-    height: 60%;
-    top: 0;
-    background: #c0d2bd;
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-    transform-origin: top;
-    transition: 0.7s;
-    z-index: 4;
-}
-
-.envelope-front {
-    position: absolute;
-    inset: 0;
-    background:
-        linear-gradient(145deg, transparent 49.5%, #b9cdb9 50%) left bottom / 50% 100% no-repeat,
-        linear-gradient(215deg, transparent 49.5%, #c3d5c1 50%) right bottom / 50% 100% no-repeat;
-}
-
-.seal {
-    position: absolute;
-    top: 48%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #f6f3e9;
-    display: grid;
-    place-items: center;
-    font-size: 23px;
-    z-index: 5;
-    transition: 0.3s;
-}
-
-.envelope.open .envelope-flap { transform: rotateX(180deg); }
-.envelope.open .seal { opacity: 0; }
-
-.tap-text { position: absolute; bottom: -40px; width: 100%; font-size: 12px; color: #819181; }
-
-/* NEW: quick write button on the envelope screen */
-.quick-write { margin-top: 70px; }
-.quick-write button { padding: 12px 22px; }
-
-/* LETTER */
-.letter {
-    display: none;
-    background: #fffdf7;
-    padding: 40px;
-    margin-top: 30px;
-    text-align: left;
-    border: 1px solid #eeeee5;
-    animation: appear 0.7s ease;
-}
-
-@keyframes appear {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.date { font-size: 11px; color: #8b998a; letter-spacing: 1px; text-transform: uppercase; }
-
-.letter h2 { font-family: 'Fraunces', serif; font-size: 30px; margin-top: 30px; }
-
-.story {
-    font-family: 'Fraunces', serif;
-    font-size: 18px;
-    line-height: 1.9;
-    color: #596a5b;
-    white-space: pre-wrap;
-}
-
-.signoff { font-family: 'Fraunces', serif; font-style: italic; text-align: right; margin-top: 30px; color: #7c907e; }
-
-.buttons { display: flex; justify-content: space-between; gap: 10px; margin-top: 30px; flex-wrap: wrap; }
-
-button {
-    border: none;
-    border-radius: 30px;
-    padding: 12px 18px;
-    background: #6f8b73;
-    color: white;
-    cursor: pointer;
-    font-weight: 600;
-    font-family: inherit;
-}
-button.secondary { background: #edf2e9; color: #637b66; }
-
-/* WRITING */
-.write-area { display: none; margin-top: 25px; padding: 20px; background: #f8faf5; border-radius: 12px; }
-
-label { display: block; text-align: left; font-size: 11px; margin: 15px 0 7px; color: #748775; font-weight: 600; }
-label:first-child { margin-top: 0; }
-
-input, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #dfe7dc;
-    border-radius: 9px;
-    background: #fffefa;
-    font: inherit;
-    color: #344638;
-}
-
-textarea {
-    min-height: 180px;
-    resize: vertical;
-    line-height: 1.7;
-    font-family: 'Fraunces', serif;
-    font-size: 16px;
-}
-
-.write-area .buttons { margin-top: 20px; align-items: center; }
-
-button.danger { background: none; color: #b07a72; text-decoration: underline; font-size: 12px; padding: 8px; display: none; }
-
-.history { margin-top: 20px; text-align: center; }
-.history > button { background: none; color: #829182; text-decoration: underline; font-size: 11px; }
-.history-list { display: none; margin-top: 15px; }
-
-.history-item {
-    background: #f8faf5;
-    padding: 12px;
-    margin-top: 8px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 12px;
-    text-align: left;
-}
-
-.footer { margin-top: 30px; color: #94a092; font-size: 11px; }
-
-@media(max-width: 500px) {
-    .envelope { width: 290px; height: 200px; }
-    .letter { padding: 25px; }
-    h1 { font-size: 36px; }
-}
+:root{--bg:#e8efe5;--ink:#344638;--muted:#7c8b7d;--card:#fffdf7;--line:#eeeee5;--story:#596a5b;--soft:#f8faf5;--field:#fffefa;--fline:#dfe7dc;--btn:#6f8b73;--btn2:#edf2e9;--btn2t:#637b66;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#1b241e;--ink:#dfe9dc;--muted:#9fb09f;--card:#252f28;--line:#34443a;--story:#c5d3c3;--soft:#202a23;--field:#1b241e;--fline:#34443a;--btn2:#2f3d33;--btn2t:#b9ccb9}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1b241e;--ink:#dfe9dc;--muted:#9fb09f;--card:#252f28;--line:#34443a;--story:#c5d3c3;--soft:#202a23;--field:#1b241e;--fline:#34443a;--btn2:#2f3d33;--btn2t:#b9ccb9}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;display:flex;justify-content:center;align-items:center;padding:20px}
+.container{width:100%;max-width:680px;text-align:center}
+.small-title{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+h1{font-family:'Fraunces',Georgia,serif;font-size:43px;margin:10px 0}
+.subtitle{color:var(--muted);font-size:13px}
+.envelope-area{margin-top:70px;display:flex;justify-content:center}
+.envelope{position:relative;width:350px;height:230px;background:#cbd9c8;cursor:pointer;border-radius:8px;box-shadow:0 20px 40px #526c5730;transition:.3s}
+.envelope:hover{transform:translateY(-5px)}
+.envelope-back{position:absolute;inset:0;background:#d8e4d4}
+.envelope-flap{position:absolute;width:100%;height:60%;top:0;background:#c0d2bd;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:.7s;z-index:4}
+.envelope-front{position:absolute;inset:0;background:linear-gradient(145deg,transparent 49.5%,#b9cdb9 50%) left bottom/50% 100% no-repeat,linear-gradient(215deg,transparent 49.5%,#c3d5c1 50%) right bottom/50% 100% no-repeat}
+.seal{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);width:50px;height:50px;border-radius:50%;background:#f6f3e9;display:grid;place-items:center;font-size:23px;z-index:5;transition:.3s}
+.envelope.open .envelope-flap{transform:rotateX(180deg)}
+.envelope.open .seal{opacity:0}
+.tap-text{position:absolute;bottom:-40px;width:100%;font-size:12px;color:var(--muted)}
+.quick{margin-top:70px}
+.letter{display:none;background:var(--card);padding:36px;margin-top:30px;text-align:left;border:1px solid var(--line);animation:appear .7s ease}
+@keyframes appear{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.date{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.letter h2{font-family:'Fraunces',Georgia,serif;font-size:28px;margin:24px 0 8px}
+.note{background:var(--soft);border-radius:12px;padding:16px 18px;margin-top:14px}
+.who{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:10px}
+.who a{color:var(--muted);cursor:pointer;text-decoration:underline;text-transform:none;letter-spacing:0;font-weight:500}
+.story{font-family:'Fraunces',Georgia,serif;font-size:18px;line-height:1.9;color:var(--story);white-space:pre-wrap;margin-top:6px;overflow-wrap:anywhere}
+.empty{color:var(--muted);font-family:'Fraunces',Georgia,serif;font-size:17px;margin-top:14px}
+.buttons{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:26px;flex-wrap:wrap}
+button{border:0;border-radius:30px;padding:12px 18px;background:var(--btn);color:#fff;cursor:pointer;font-weight:600;font-family:inherit}
+button.secondary{background:var(--btn2);color:var(--btn2t)}
+.write-area{display:none;margin-top:22px;padding:20px;background:var(--soft);border-radius:12px}
+label{display:block;font-size:11px;margin:14px 0 7px;color:var(--muted);font-weight:600}
+label:first-child{margin-top:0}
+input,textarea{width:100%;padding:12px;border:1px solid var(--fline);border-radius:9px;background:var(--field);font:inherit;color:var(--ink)}
+textarea{min-height:180px;resize:vertical;line-height:1.7;font-family:'Fraunces',Georgia,serif;font-size:16px}
+.link{background:none;color:var(--muted);text-decoration:underline;font-size:12px;padding:8px}
+.item{background:var(--soft);padding:12px 14px;margin-top:8px;border-radius:10px;cursor:pointer;font-size:13px;text-align:left}
+.item div{color:var(--muted);margin-top:3px}
+.footer,.status{margin-top:26px;color:var(--muted);font-size:11px}
+@media(max-width:500px){.envelope{width:290px;height:200px}.letter{padding:22px}h1{font-size:36px}}
 </style>
 </head>
-
 <body>
-
 <div class="container">
+  <div class="small-title">A little something, just for us</div>
+  <h1>A Little Note ♡</h1>
+  <div class="subtitle">our little stories from everyday life</div>
 
-    <div class="small-title">A little something, just for you</div>
-    <h1>A Little Note ♡</h1>
-    <div class="subtitle">little stories from my everyday life</div>
-
-    <!-- FRONT SCREEN: envelope + quick write -->
+  <!-- HOME: envelope + today's letters -->
+  <div id="home">
     <div id="front">
-
-        <div class="envelope-area">
-            <div class="envelope" id="envelope">
-                <div class="envelope-back"></div>
-                <div class="envelope-front"></div>
-                <div class="envelope-flap"></div>
-                <div class="seal">✿</div>
-                <div class="tap-text">tap to open your letter</div>
-            </div>
+      <div class="envelope-area">
+        <div class="envelope" id="envelope">
+          <div class="envelope-back"></div><div class="envelope-front"></div><div class="envelope-flap"></div>
+          <div class="seal">✿</div><div class="tap-text">tap to open our letters</div>
         </div>
-
-        <div class="quick-write">
-            <button class="secondary" id="quickWriteBtn">✎ Write today's story</button>
-        </div>
-
+      </div>
+      <div class="quick"><button class="secondary" id="quickBtn">✎ Write today’s story</button></div>
     </div>
 
-    <!-- LETTER -->
     <div class="letter" id="letter">
-
-        <div class="date" id="date"></div>
-
-        <h2>Hey you,</h2>
-
-        <div class="story" id="story"></div>
-
-        <div class="signoff">take care, okay? ♡</div>
-
-        <div class="buttons">
-            <button class="secondary" onclick="closeLetter()">← Close letter</button>
-            <button onclick="toggleWrite()">Write today's story</button>
-        </div>
-
-        <!-- WRITING AREA -->
-        <div class="write-area" id="writeArea">
-
-            <label>DATE</label>
-            <input type="date" id="entryDate">
-
-            <label>WHAT HAPPENED TODAY?</label>
-            <textarea id="entryText" placeholder="Tell your story here..."></textarea>
-
-            <div class="buttons">
-                <button onclick="saveEntry()">Save letter ✓</button>
-                <button class="danger" id="deleteBtn" onclick="deleteEntry()">delete this letter</button>
-            </div>
-
-        </div>
-
-        <div class="history">
-            <button onclick="toggleHistory()">read an older letter</button>
-            <div class="history-list" id="historyList"></div>
-        </div>
-
+      <div class="date" id="date"></div>
+      <h2>Hey you,</h2>
+      <div id="notes"></div>
+      <div class="buttons">
+        <button class="secondary" id="closeBtn">← Close</button>
+        <button id="writeBtn">✎ Write my story</button>
+      </div>
+      <div class="write-area" id="writeArea">
+        <label>YOUR NAME</label>
+        <input id="myName" maxlength="30" placeholder="Who’s writing?">
+        <label>DATE</label>
+        <input type="date" id="entryDate">
+        <label>WHAT HAPPENED TODAY?</label>
+        <textarea id="entryText" placeholder="Tell your story here..."></textarea>
+        <div class="buttons"><button id="saveBtn">Save letter ✓</button></div>
+      </div>
+      <div class="buttons" style="justify-content:center"><button class="link" id="archiveBtn">read older letters →</button></div>
     </div>
+  </div>
 
-    <div class="footer">no big speeches. just little pieces of the day. 🌿</div>
+  <!-- ARCHIVE: all old letters -->
+  <div id="archive" style="display:none">
+    <div class="letter" style="display:block">
+      <div class="date">our old letters</div>
+      <h2>Everything we’ve written</h2>
+      <div id="archiveList"></div>
+      <div class="buttons"><button class="secondary" id="backBtn">← Back</button></div>
+    </div>
+  </div>
 
+  <div class="status" id="status">connecting…</div>
+  <div class="footer">no big speeches. just little pieces of the day. 🌿</div>
 </div>
 
 <script>
-
-// ---------- STORAGE (safe, won't crash if storage is blocked) ----------
-let warnedAboutStorage = false;
-
-function loadEntries() {
-    try {
-        return JSON.parse(localStorage.getItem("myDiary") || "[]");
-    } catch (e) {
-        return [];
-    }
-}
-
-function persist() {
-    try {
-        localStorage.setItem("myDiary", JSON.stringify(entries));
-    } catch (e) {
-        if (!warnedAboutStorage) {
-            warnedAboutStorage = true;
-            alert("This browser won't let me save your letters, so they'll disappear when you close the page.");
-        }
-    }
-}
-
-let entries = loadEntries();
-
-// ---------- HELPERS ----------
-
-// Uses YOUR local date (the old version used UTC, which can show yesterday in the morning)
-function today() {
-    const d = new Date();
-    const p = n => String(n).padStart(2, "0");
-    return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate());
-}
-
-function formatDate(date) {
-    return new Date(date + "T12:00:00").toLocaleDateString("en-US", {
-        weekday: "long", day: "numeric", month: "long", year: "numeric"
-    });
-}
-
 const $ = id => document.getElementById(id);
+let db = null, key = "", letters = [], canWrite = true, shownDate = "", opened = false;
 
-// ---------- OPEN / CLOSE ----------
+function store(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+function today() { const d = new Date(), p = n => String(n).padStart(2, "0"); return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()); }
+function fmt(d) { return new Date(d + "T12:00:00").toLocaleDateString("en-US", { weekday: "long", day: "numeric", month: "long", year: "numeric" }); }
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+const mine = date => letters.find(l => l.date === date && l.author === key);
 
-function openEnvelope(writeMode) {
-    $("envelope").classList.add("open");
-
-    setTimeout(() => {
-        $("front").style.display = "none";
-        $("letter").style.display = "block";
-        renderHistory();
-
-        if (writeMode) {
-            const entry = entries.find(e => e.date === today()) || entries[0];
-            if (entry) showEntry(entry); else showBlank();
-            startWriting(today());
-            return;
-        }
-
-        const entry = entries.find(e => e.date === today()) || entries[0];
-        if (entry) {
-            showEntry(entry);
-        } else {
-            showBlank();
-            startWriting(today());
-        }
-    }, 700);
+/* ---------- views ---------- */
+function route() {
+  const isArchive = location.hash === "#archive";
+  $("home").style.display = isArchive ? "none" : "block";
+  $("archive").style.display = isArchive ? "block" : "none";
+  render();
 }
+window.addEventListener("hashchange", route);
+$("archiveBtn").onclick = () => { location.hash = "archive"; };
+$("backBtn").onclick = () => { location.hash = ""; };
 
-$("envelope").addEventListener("click", () => openEnvelope(false));
-$("quickWriteBtn").addEventListener("click", () => openEnvelope(true));
-
-function closeLetter() {
-    $("letter").style.display = "none";
-    $("front").style.display = "block";
-    $("envelope").classList.remove("open");
+function openEnvelope(write) {
+  $("envelope").classList.add("open");
+  setTimeout(() => {
+    opened = true; shownDate = shownDate || today();
+    $("front").style.display = "none"; $("letter").style.display = "block";
+    render();
+    if (write) startWriting(shownDate);
+  }, 700);
 }
+$("envelope").onclick = () => openEnvelope(false);
+$("quickBtn").onclick = () => { shownDate = today(); openEnvelope(true); };
+$("closeBtn").onclick = () => {
+  opened = false; $("letter").style.display = "none"; $("front").style.display = "block";
+  $("envelope").classList.remove("open"); $("writeArea").style.display = "none";
+};
 
-// ---------- SHOW ----------
-
-function showBlank() {
-    $("date").innerText = formatDate(today());
-    $("story").innerText = "Today is a blank page. Maybe you'd like to write the first little story?";
-}
-
-function showEntry(entry) {
-    $("date").innerText = formatDate(entry.date);
-    $("story").innerText = entry.text;
-    $("writeArea").style.display = "none";
-    renderHistory();
-}
-
-// ---------- WRITE ----------
-
-// Opens the writing box for a date, filled with that day's letter if one exists
-function startWriting(date) {
-    $("writeArea").style.display = "block";
-    $("entryDate").value = date;
-    loadDraft();
-    $("entryText").focus();
-}
-
-// Fills the textarea with the saved letter for the chosen date (or empties it)
-function loadDraft() {
-    const date = $("entryDate").value;
-    const existing = entries.find(e => e.date === date);
-    $("entryText").value = existing ? existing.text : "";
-    $("deleteBtn").style.display = existing ? "inline-block" : "none";
-}
-
-$("entryDate").addEventListener("change", loadDraft);
-
-function toggleWrite() {
-    const area = $("writeArea");
-    if (area.style.display === "block") {
-        area.style.display = "none";
-    } else {
-        startWriting(today());
-    }
-}
-
-function saveEntry() {
-    const date = $("entryDate").value;
-    const text = $("entryText").value.trim();
-
-    if (!date) {
-        alert("Pick a date first 🙂");
-        return;
-    }
-    if (!text) {
-        alert("Write something first 🙂");
-        return;
-    }
-
-    const newEntry = { date, text };
-    const index = entries.findIndex(e => e.date === date);
-
-    if (index >= 0) entries[index] = newEntry;
-    else entries.push(newEntry);
-
-    entries.sort((a, b) => b.date.localeCompare(a.date));
-    persist();
-    showEntry(newEntry);
-}
-
-function deleteEntry() {
-    const date = $("entryDate").value;
-    if (!confirm("Delete this letter? This can't be undone.")) return;
-
-    entries = entries.filter(e => e.date !== date);
-    persist();
-
-    if (entries.length) {
-        showEntry(entries[0]);
-    } else {
-        showBlank();
-        renderHistory();
-        startWriting(today());
-    }
-}
-
-// ---------- HISTORY ----------
-
-function renderHistory() {
-    const list = $("historyList");
-    list.innerHTML = "";
-
-    entries.forEach(entry => {
-        const item = document.createElement("div");
-        item.className = "history-item";
-
-        const heading = document.createElement("strong");
-        heading.innerText = formatDate(entry.date);
-
-        const preview = document.createElement("div");
-        preview.innerText = entry.text.slice(0, 80) + (entry.text.length > 80 ? "..." : "");
-
-        item.appendChild(heading);
-        item.appendChild(preview);
-        item.onclick = () => showEntry(entry);
-
-        list.appendChild(item);
+/* ---------- render ---------- */
+function render() {
+  if (!db) return;
+  // letters for the shown day
+  if (opened) {
+    const d = shownDate || today();
+    $("date").textContent = fmt(d);
+    const box = $("notes"); box.innerHTML = "";
+    const day = letters.filter(l => l.date === d).sort((a, b) => a.updatedAt - b.updatedAt);
+    if (!day.length) box.appendChild(el("div", "empty", "A blank page. Maybe you’d like to write the first little story?"));
+    day.forEach(l => {
+      const n = el("div", "note"), who = el("div", "who");
+      who.appendChild(el("span", "", (l.name || "Someone") + (l.author === key ? " (you)" : "")));
+      if (l.author === key && canWrite) { const a = el("a", "", "edit"); a.onclick = () => startWriting(d); who.appendChild(a); }
+      n.appendChild(who); n.appendChild(el("div", "story", l.text)); box.appendChild(n);
     });
+    $("writeBtn").style.display = canWrite ? "" : "none";
+  }
+  // archive list
+  const list = $("archiveList"); list.innerHTML = "";
+  const dates = [...new Set(letters.map(l => l.date))].sort().reverse();
+  if (!dates.length) list.appendChild(el("div", "empty", "No letters yet."));
+  dates.forEach(d => {
+    const day = letters.filter(l => l.date === d), it = el("div", "item");
+    it.appendChild(el("strong", "", fmt(d)));
+    it.appendChild(el("div", "", day.map(l => l.name || "Someone").join(" & ") + " — " + day[0].text.slice(0, 70) + (day[0].text.length > 70 ? "..." : "")));
+    it.onclick = () => { shownDate = d; opened = true; location.hash = ""; $("front").style.display = "none"; $("letter").style.display = "block"; $("writeArea").style.display = "none"; route(); };
+    list.appendChild(it);
+  });
 }
 
-function toggleHistory() {
-    const list = $("historyList");
-    list.style.display = list.style.display === "block" ? "none" : "block";
+/* ---------- write ---------- */
+function startWriting(date) {
+  if (!canWrite) return;
+  $("writeArea").style.display = "block";
+  $("entryDate").value = date;
+  $("myName").value = (mine(date) && mine(date).name) || store("diaryName") || "";
+  $("entryText").value = mine(date) ? mine(date).text : "";
+  $("entryText").focus();
 }
+$("writeBtn").onclick = () => { const a = $("writeArea"); a.style.display === "block" ? a.style.display = "none" : startWriting(shownDate || today()); };
+$("entryDate").onchange = () => { const d = $("entryDate").value; $("entryText").value = mine(d) ? mine(d).text : ""; };
 
+$("saveBtn").onclick = async () => {
+  const date = $("entryDate").value, text = $("entryText").value.trim(), name = $("myName").value.trim();
+  if (!name) return alert("Add your name first 🙂");
+  if (!date || !text) return alert("Write something first 🙂");
+  store("diaryName", name);
+  try {
+    await db.collection("letters").doc(date + "_" + key).set({ date, text, name, author: key, updatedAt: Date.now() });
+    shownDate = date; $("writeArea").style.display = "none"; render();
+  } catch (e) {
+    alert("Couldn’t save. You may only have view access — ask the owner to make you a Contributor. (" + (e.code || e.message) + ")");
+  }
+};
+
+/* ---------- connect ---------- */
+(async () => {
+  try {
+    const user = await claude.use("user");
+    let id = user ? await user.id() : null;
+    if (!id) { id = store("diaryId") || Math.random().toString(36).slice(2, 10); store("diaryId", id); }
+    key = String(id).replace(/[^A-Za-z0-9_-]/g, "");
+    if (user) canWrite = (await user.can("data.write")) !== false;
+    db = await claude.use("db");
+    if (!db) { $("status").textContent = "Sign in to claude.ai to see and write letters."; return; }
+    db.collection("letters").orderBy("date", "desc").limit(500).onSnapshot(
+      snap => { letters = snap.docs.map(d => d.data()); $("status").textContent = canWrite ? "live ♡ — new letters appear here by themselves" : "live ♡ — you can read, but not write (ask for Contributor access)"; route(); },
+      e => { $("status").textContent = "Couldn’t load letters (" + e.code + ")."; }
+    );
+  } catch (e) { $("status").textContent = "Couldn’t connect right now."; }
+})();
 </script>
-
 </body>
 </html>
